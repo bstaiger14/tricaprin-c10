@@ -1,95 +1,107 @@
-const header = document.querySelector("[data-header]");
-const menuButton = document.querySelector("[data-menu-button]");
-const mobileNav = document.querySelector("[data-mobile-nav]");
-const revealEls = document.querySelectorAll(".reveal");
-const hotspots = document.querySelectorAll(".hotspot");
-const topicPanel = document.querySelector("[data-topic-panel]");
+document.addEventListener("DOMContentLoaded", () => {
+  // Intersection Observer for scroll fade-in animations
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: "0px 0px -50px 0px"
+  };
 
-const topics = {
-  specific: {
-    pill: "Targeted Delivery",
-    title: "Bypassing the 'Shuttle'.",
-    body: "Most ordinary fats are bulky and require a special transporter (a 'carnitine shuttle') to get inside heart cells. Tricaprin (C10) is unique—it bypasses this shuttle entirely, entering heart cells directly to help break down stubborn fat.",
-    link: "#research",
-    linkText: "See the clinical research"
-  },
-  heart: {
-    pill: "C10 vs C8",
-    title: "Why not C8 for the heart?",
-    body: "Chain length changes everything. C8 is processed rapidly by the liver into ketones for brain energy. C10 travels further, hitting the exact metabolic sweet spot required to specifically reach and fuel cardiovascular tissue.",
-    link: "#mct",
-    linkText: "Compare MCT types"
-  },
-  mct: {
-    pill: "100% Pure",
-    title: "Diluted blends won't work.",
-    body: "Generic MCT oils dilute C10 with cheaper fats. To ensure this specific molecule actually reaches targeted tissues in meaningful amounts without getting watered down, a 100% pure Tricaprin formulation is required.",
-    link: "#supplement",
-    linkText: "View the pure supplement"
-  }
-};
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("is-visible");
+        observer.unobserve(entry.target);
+      }
+    });
+  }, observerOptions);
 
-function updateHeader() {
-  if (!header) return;
-  header.classList.toggle("is-scrolled", window.scrollY > 10);
-}
-
-updateHeader();
-window.addEventListener("scroll", updateHeader, { passive: true });
-
-if (menuButton) {
-  menuButton.addEventListener("click", () => {
-    document.body.classList.toggle("menu-open");
-  });
-}
-
-if (mobileNav) {
-  mobileNav.querySelectorAll("a").forEach((link) => {
-    link.addEventListener("click", () => document.body.classList.remove("menu-open"));
-  });
-}
-
-if ("IntersectionObserver" in window) {
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("is-visible");
-          observer.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.12 }
-  );
-
-  revealEls.forEach((el, index) => {
-    el.style.transitionDelay = `${Math.min(index % 4, 3) * 70}ms`;
+  document.querySelectorAll(".fade-in").forEach(el => {
     observer.observe(el);
   });
-} else {
-  revealEls.forEach((el) => el.classList.add("is-visible"));
-}
 
-function setTopic(topicKey) {
-  const topic = topics[topicKey];
-  if (!topic || !topicPanel) return;
+  // Smooth Scrolling for Navigation
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const targetId = this.getAttribute('href');
+      if (targetId === '#') return;
+      
+      const targetElement = document.querySelector(targetId);
+      if (targetElement) {
+        const headerOffset = 80;
+        const elementPosition = targetElement.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
-  hotspots.forEach((spot) => {
-    spot.classList.toggle("active", spot.dataset.topic === topicKey);
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: "smooth"
+        });
+      }
+    });
   });
 
-  topicPanel.innerHTML = `
-    <span class="panel-pill">${topic.pill}</span>
-    <h3>${topic.title}</h3>
-    <p>${topic.body}</p>
-    <a href="${topic.link}">${topic.linkText}</a>
-  `;
-}
+  // Navbar shadow drops on scroll
+  const navbar = document.querySelector(".navbar");
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > 20) {
+      navbar.style.boxShadow = "0 4px 20px rgba(0, 0, 0, 0.05)";
+    } else {
+      navbar.style.boxShadow = "none";
+    }
+  });
 
-// Initialize the first topic on page load
-setTopic("specific");
+  // --- INTERACTIVE HOTSPOTS LOGIC ---
+  const hotspots = document.querySelectorAll('.hotspot');
+  const cards = document.querySelectorAll('.hotspot-card');
+  const closeBtns = document.querySelectorAll('.close-card');
+  const body = document.body;
 
-hotspots.forEach((spot) => {
-  spot.addEventListener("click", () => setTopic(spot.dataset.topic));
-  spot.addEventListener("mouseenter", () => setTopic(spot.dataset.topic));
+  function closeAllCards() {
+    cards.forEach(card => card.classList.remove('active'));
+    hotspots.forEach(btn => btn.classList.remove('active'));
+    body.classList.remove('popup-active');
+  }
+
+  // Open Tooltip when + is clicked
+  hotspots.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation(); // Prevent click from triggering the document closer
+      
+      const targetId = btn.getAttribute('data-target');
+      const targetCard = document.getElementById(targetId);
+      
+      // If clicking the currently active one, close it. Otherwise, open the new one.
+      if (btn.classList.contains('active')) {
+        closeAllCards();
+      } else {
+        closeAllCards(); // Close any currently open cards first
+        btn.classList.add('active');
+        if(targetCard) {
+          targetCard.classList.add('active');
+          body.classList.add('popup-active'); // Dims background
+        }
+      }
+    });
+  });
+
+  // Close when 'X' is clicked inside the tooltip
+  closeBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      closeAllCards();
+    });
+  });
+
+  // Close tooltips if the user clicks anywhere else on the screen (the dimmed background)
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.hotspot-card') && !e.target.closest('.hotspot')) {
+      closeAllCards();
+    }
+  });
+
+  // Prevent clicking inside the card from closing it
+  cards.forEach(card => {
+    card.addEventListener('click', (e) => {
+      e.stopPropagation();
+    });
+  });
 });
