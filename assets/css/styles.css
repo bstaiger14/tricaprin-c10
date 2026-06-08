@@ -53,13 +53,14 @@ h4 { font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--primary-dark); padd
 .badge { display: inline-block; padding: 0.25rem 1rem; border-radius: 50px; font-size: 0.875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; background: #d1fae5; color: #065f46; margin-bottom: 1.5rem; }
 .badge-outline { background: transparent; border: 1px solid rgba(255,255,255,0.2); color: var(--primary); }
 
-/* Navigation */
+/* Navigation & Logo Updates */
 .navbar { position: fixed; top: 0; width: 100%; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); z-index: 100; transition: all 0.3s ease; }
 .nav-content { display: flex; justify-content: space-between; align-items: center; height: 80px; }
 .logo { display: flex; align-items: center; gap: 0.75rem; color: var(--dark); }
-.logo-mark { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: var(--white); height: 40px; width: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 1rem; font-weight: 900;}
-.logo-text strong { font-size: 1.25rem; font-weight: 900; line-height: 1;}
-.logo-text small { display: block; font-size: 0.75rem; font-weight: 600; color: var(--text-light); text-transform: uppercase; letter-spacing: 1px;}
+.logo-mark { background: linear-gradient(135deg, #10b981, #0ea5e9); color: var(--white); height: 44px; width: 44px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 1.1rem; font-weight: 900; letter-spacing: -0.5px;}
+.logo-text { display: flex; flex-direction: column; line-height: 1.1; }
+.logo-text strong { font-size: 1.4rem; font-weight: 900; letter-spacing: -0.5px; color: #0f172a; }
+.logo-text small { font-size: 0.75rem; font-weight: 700; color: #10b981; text-transform: uppercase; letter-spacing: 1.5px; margin-top: 2px;}
 
 .nav-links { display: flex; gap: 2rem; }
 .nav-links a { font-weight: 600; color: var(--text); transition: color 0.3s; }
@@ -72,14 +73,14 @@ h4 { font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--primary-dark); padd
 .hero-sub { font-size: 1.15rem; margin-bottom: 1rem; color: var(--text); }
 .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
 
-/* Interactive Visual Container */
-.glass-panel { background: #f8fafc; border-radius: 24px; padding: 3rem; text-align: center; border: 1px solid var(--border); box-shadow: 0 20px 40px -10px rgba(0,0,0,0.05); }
+/* Interactive Visual Container - CHANGED TO PURE WHITE */
+.glass-panel { background: #ffffff; border-radius: 24px; padding: 3rem; text-align: center; border: 1px solid var(--border); box-shadow: 0 20px 40px -10px rgba(0,0,0,0.05); }
 .interactive-hint { font-size: 0.8rem; font-weight: 700; color: var(--primary-dark); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1.5rem; }
 .interactive-hint strong { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; background: var(--dark); color: white; border-radius: 50%; margin: 0 4px; }
 
-.molecule-interactive { position: relative; height: 320px; margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: center; }
+.molecule-interactive { position: relative; height: 360px; margin-bottom: 0; display: flex; align-items: center; justify-content: center; }
 
-/* Heart Image Element */
+/* Heart Image Element - MIX BLEND DARKEN FIXES THE WHITE BOX */
 .heart-image {
   position: absolute;
   inset: 0;
@@ -89,8 +90,7 @@ h4 { font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--primary-dark); padd
   padding: 20px;
   z-index: 1;
   animation: floatSlow 6s ease-in-out infinite alternate;
-  /* THIS REMOVES THE WHITE BACKGROUND: */
-  mix-blend-mode: multiply; 
+  mix-blend-mode: darken; /* Darken perfectly removes pure white backgrounds without altering shadows */
 }
 
 @keyframes floatSlow { 
@@ -99,20 +99,18 @@ h4 { font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--primary-dark); padd
 }
 
 /* The Plus Buttons */
-.hotspot { position: absolute; width: 32px; height: 32px; border-radius: 50%; background: var(--white); color: var(--text-light); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: all 0.2s; padding: 0; transform: translate(-50%, -50%);}
+.hotspot { position: absolute; width: 32px; height: 32px; border-radius: 50%; background: var(--white); color: var(--text-light); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10; box-shadow: 0 4px 10px rgba(0,0,0,0.15); transition: all 0.2s; padding: 0; transform: translate(-50%, -50%);}
 .hotspot:hover, .hotspot.active { background: var(--dark); color: var(--white); border-color: var(--dark); transform: translate(-50%, -50%) scale(1.1); }
 .hotspot .plus { font-size: 20px; font-weight: 700; line-height: 1; transition: transform 0.3s; margin-top: -2px; }
 .hotspot.active .plus { transform: rotate(45deg); }
 
 /* Pop-up Info Cards */
-.hotspot-card { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -40%) scale(0.95); background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(10px); padding: 2rem; border-radius: 16px; box-shadow: 0 20px 50px rgba(0,0,0,0.2); width: 90%; max-width: 380px; z-index: 1000; opacity: 0; pointer-events: none; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); border: 1px solid var(--border); text-align: left; }
+.hotspot-card { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -40%) scale(0.95); background: #ffffff; padding: 2.25rem; border-radius: 16px; box-shadow: 0 20px 50px rgba(0,0,0,0.15); width: 100%; max-width: 320px; z-index: 1000; opacity: 0; pointer-events: none; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); border: 1px solid var(--border); text-align: left; }
 .hotspot-card.active { opacity: 1; pointer-events: auto; transform: translate(-50%, -50%) scale(1); }
 .hotspot-card p { font-size: 0.95rem; margin: 0; color: var(--text); line-height: 1.6; }
 
 .close-card { position: absolute; top: 12px; right: 12px; background: var(--light); border: none; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text-light); font-size: 18px; transition: background 0.2s, color 0.2s; line-height: 1;}
 .close-card:hover { background: #e2e8f0; color: var(--dark); }
-
-.benefit-list { list-style: none; display: inline-flex; flex-direction: column; gap: 12px; font-weight: 700; color: var(--dark); align-items: flex-start; margin-top: 1rem; }
 
 /* Grids & Cards */
 .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 3rem; }
@@ -149,18 +147,8 @@ h4 { font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--primary-dark); padd
 
 /* Animations */
 .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
-.fade-in.is-visible { opacity: 1; transform: translateY(0); }
-.delay-1 { transition-delay: 0.15s; }
-.delay-2 { transition-delay: 0.3s; }
-
-/* Overlay to dim background when popup is active - BLUR REMOVED */
-body.popup-active::after { 
-  content: ''; 
-  position: fixed; 
-  inset: 0; 
-  background: rgba(255, 255, 255, 0.2); 
-  z-index: 999; 
-}
+/* CRITICAL FIX: "transform: none;" allows popups to escape the stacking context so they always sit perfectly on top */
+.fade-in.is-visible { opacity: 1; transform: none; }
 
 /* Mobile */
 @media (max-width: 768px) {
