@@ -48,4 +48,54 @@ document.addEventListener("DOMContentLoaded", () => {
       navbar.style.boxShadow = "none";
     }
   });
+
+  // --- INTERACTIVE HOTSPOTS LOGIC ---
+  const hotspots = document.querySelectorAll('.hotspot');
+  const cards = document.querySelectorAll('.hotspot-card');
+  const closeBtns = document.querySelectorAll('.close-card');
+
+  function closeAllCards() {
+    cards.forEach(card => card.classList.remove('active'));
+    hotspots.forEach(btn => btn.classList.remove('active'));
+  }
+
+  // Open Tooltip when + is clicked
+  hotspots.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation(); // prevent click from bubbling to document
+      const targetId = btn.getAttribute('data-target');
+      const targetCard = document.getElementById(targetId);
+      
+      // If clicking the active one, close it. Otherwise open the new one.
+      if (btn.classList.contains('active')) {
+        closeAllCards();
+      } else {
+        closeAllCards();
+        btn.classList.add('active');
+        targetCard.classList.add('active');
+      }
+    });
+  });
+
+  // Close when 'X' is clicked inside the tooltip
+  closeBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      closeAllCards();
+    });
+  });
+
+  // Close tooltips if the user clicks anywhere else on the screen background
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.hotspot-card') && !e.target.closest('.hotspot')) {
+      closeAllCards();
+    }
+  });
+
+  // Prevent clicking inside the tooltip from closing it
+  cards.forEach(card => {
+    card.addEventListener('click', (e) => {
+      e.stopPropagation();
+    });
+  });
 });
