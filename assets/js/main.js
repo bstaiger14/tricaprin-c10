@@ -53,10 +53,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const hotspots = document.querySelectorAll('.hotspot');
   const cards = document.querySelectorAll('.hotspot-card');
   const closeBtns = document.querySelectorAll('.close-card');
+  const body = document.body;
 
   function closeAllCards() {
     cards.forEach(card => card.classList.remove('active'));
     hotspots.forEach(btn => btn.classList.remove('active'));
+    body.classList.remove('popup-active');
   }
 
   // Open Tooltip when + is clicked
@@ -75,6 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
         btn.classList.add('active');
         if(targetCard) {
           targetCard.classList.add('active');
+          body.classList.add('popup-active'); // Dims background slightly for focus
         }
       }
     });
@@ -102,7 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Research evidence library filters
+  // --- RESEARCH ATLAS LOGIC ---
   const filterButtons = document.querySelectorAll('[data-research-filter]');
   const studyCards = document.querySelectorAll('[data-study-card]');
 
@@ -158,5 +161,4 @@ document.addEventListener("DOMContentLoaded", () => {
 
     metricNumbers.forEach(metric => metricObserver.observe(metric));
   }
-
 });
