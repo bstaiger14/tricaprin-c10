@@ -101,4 +101,62 @@ document.addEventListener("DOMContentLoaded", () => {
       e.stopPropagation();
     });
   });
+
+  // Research evidence library filters
+  const filterButtons = document.querySelectorAll('[data-research-filter]');
+  const studyCards = document.querySelectorAll('[data-study-card]');
+
+  filterButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const filter = button.getAttribute('data-research-filter');
+
+      filterButtons.forEach(btn => {
+        btn.classList.toggle('active', btn === button);
+      });
+
+      studyCards.forEach(card => {
+        const categories = (card.getAttribute('data-study-card') || '').split(/\s+/);
+        const shouldShow = filter === 'all' || categories.includes(filter);
+        card.classList.toggle('hide', !shouldShow);
+      });
+    });
+  });
+
+  // Subtle count-up animation for the evidence summary numbers
+  const metricNumbers = document.querySelectorAll('[data-count]');
+
+  const animateMetric = (metric) => {
+    const target = Number(metric.getAttribute('data-count')) || 0;
+    const duration = 850;
+    const start = performance.now();
+
+    const tick = (now) => {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      metric.textContent = String(Math.round(target * eased));
+
+      if (progress < 1) {
+        requestAnimationFrame(tick);
+      } else {
+        metric.textContent = String(target);
+      }
+    };
+
+    metric.textContent = '0';
+    requestAnimationFrame(tick);
+  };
+
+  if (metricNumbers.length) {
+    const metricObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animateMetric(entry.target);
+          metricObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.35 });
+
+    metricNumbers.forEach(metric => metricObserver.observe(metric));
+  }
+
 });
