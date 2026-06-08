@@ -28,27 +28,65 @@
   <header class="hero">
     <div class="hero-bg-glow"></div>
     <div class="container hero-grid">
+      
       <div class="hero-text fade-in">
         <div class="badge">Backed by Cardiovascular Science</div>
-        <h1>The MCT Oil That Actually Targets <span class="text-gradient">Heart Health</span>.</h1>
-        <p class="hero-sub">Generic MCT oils are watered-down blends used for quick energy. <strong>Tricaprin</strong> is a highly specific C10 triglyceride breaking ground in cardiovascular metabolism and cellular lipid handling.</p>
-        <div class="hero-actions">
+        <h1>Is Tricaprin really just an <span class="text-gradient">MCT oil?</span></h1>
+        <p class="hero-sub">Yes—but it’s not the generic blend you put in your coffee for quick energy.</p>
+        <p class="hero-sub"><strong>Tricaprin is a 100% pure C10 triglyceride.</strong> It is the specific MCT gaining worldwide attention for its unique ability to support heart health by <strong>promoting the reduction of stubborn fats stored inside cardiovascular cells.</strong></p>
+        <div class="hero-actions mt-3">
           <a href="https://www.amazon.com/100-Pure-Tricaprin-Softgels-Cardiovascular/dp/B0GRS9SKPK/" class="btn btn-primary btn-lg" target="_blank">View Pure Tricaprin</a>
           <a href="#research" class="btn btn-outline btn-lg">See the Research</a>
         </div>
       </div>
-      <div class="hero-visual fade-in delay-1">
-        <div class="glass-panel">
-          <div class="molecule">
-            <div class="node core-node">C10</div>
-            <div class="node secondary-node n1">Heart</div>
-            <div class="node secondary-node n2">Lipids</div>
+
+      <div class="interactive-hero fade-in delay-1">
+        <div class="interactive-hint">Tap the <strong>+</strong> to see how C10 works</div>
+        <div class="interactive-container">
+          
+          <svg class="heart-3d" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="heartGlow" cx="30%" cy="30%" r="70%">
+                <stop offset="0%" stop-color="#34d399" />
+                <stop offset="100%" stop-color="#059669" />
+              </radialGradient>
+              <filter id="shadow3d">
+                <feDropShadow dx="0" dy="15" stdDeviation="15" flood-color="#047857" flood-opacity="0.3"/>
+              </filter>
+            </defs>
+            <path d="M100 170 C 100 170, 20 110, 20 55 C 20 25, 50 15, 70 30 C 85 40, 100 55, 100 55 C 100 55, 115 40, 130 30 C 150 15, 180 25, 180 55 C 180 110, 100 170, 100 170 Z" fill="url(#heartGlow)" filter="url(#shadow3d)" />
+            <path d="M70 30 Q 80 10 100 20" fill="none" stroke="#6ee7b7" stroke-width="6" stroke-linecap="round"/>
+            <path d="M130 30 Q 120 5 100 15" fill="none" stroke="#059669" stroke-width="6" stroke-linecap="round"/>
+          </svg>
+
+          <button class="hotspot" style="top: 30%; left: 25%;" data-target="info-1">
+            <span class="plus">+</span>
+          </button>
+          <button class="hotspot" style="top: 55%; left: 75%;" data-target="info-2">
+            <span class="plus">+</span>
+          </button>
+          <button class="hotspot" style="top: 75%; left: 45%;" data-target="info-3">
+            <span class="plus">+</span>
+          </button>
+
+          <div class="hotspot-card" id="info-1">
+            <button class="close-card">&times;</button>
+            <h4>Targeted Fat Reduction</h4>
+            <p>Unlike standard fats, pure C10 uniquely bypasses the "carnitine shuttle" to enter heart cells directly. Research shows it helps re-activate metabolism, <strong>promoting the breakdown of stubborn cellular fat.</strong></p>
           </div>
-          <ul class="benefit-list">
-            <li>✓ 100% Pure Tricaprin</li>
-            <li>✓ Targets Intracellular Lipids</li>
-            <li>✓ Not a Generic Blend</li>
-          </ul>
+          
+          <div class="hotspot-card" id="info-2">
+            <button class="close-card">&times;</button>
+            <h4>Why Not C8 or C12?</h4>
+            <p>C8 converts rapidly to ketones for the brain. C12 acts like a slow-moving long-chain fat. <strong>Only C10 hits the exact metabolic "sweet spot"</strong> required to specifically reach and fuel cardiovascular tissue.</p>
+          </div>
+          
+          <div class="hotspot-card" id="info-3">
+            <button class="close-card">&times;</button>
+            <h4>The Purity Factor</h4>
+            <p>Generic MCT oils dilute C10 with cheaper fats. To ensure this specific molecule actually reaches the targeted tissues in meaningful amounts, a <strong>100% pure Tricaprin formulation</strong> is required.</p>
+          </div>
+
         </div>
       </div>
     </div>
