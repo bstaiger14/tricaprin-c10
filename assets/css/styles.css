@@ -159,7 +159,6 @@ body.popup-active::after { content: ''; position: fixed; inset: 0; background: r
   .n2 { bottom: 10%; right: 0%; }
   .n3 { bottom: 0%; left: 10%; }
 }
-
 /* ADD THIS FOR THE REALISTIC HEART VISUAL */
 .heart-image {
   position: absolute;
