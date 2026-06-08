@@ -49,30 +49,36 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // --- INTERACTIVE HOTSPOTS LOGIC ---
+  // --- INTERACTIVE HOTSPOTS LOGIC (Fatty15 Style) ---
   const hotspots = document.querySelectorAll('.hotspot');
   const cards = document.querySelectorAll('.hotspot-card');
   const closeBtns = document.querySelectorAll('.close-card');
+  const body = document.body;
 
   function closeAllCards() {
     cards.forEach(card => card.classList.remove('active'));
     hotspots.forEach(btn => btn.classList.remove('active'));
+    body.classList.remove('popup-active');
   }
 
   // Open Tooltip when + is clicked
   hotspots.forEach(btn => {
     btn.addEventListener('click', (e) => {
-      e.stopPropagation(); // prevent click from bubbling to document
+      e.stopPropagation(); // Prevent click from triggering the document closer
+      
       const targetId = btn.getAttribute('data-target');
       const targetCard = document.getElementById(targetId);
       
-      // If clicking the active one, close it. Otherwise open the new one.
+      // If clicking the currently active one, close it. Otherwise, open the new one.
       if (btn.classList.contains('active')) {
         closeAllCards();
       } else {
-        closeAllCards();
+        closeAllCards(); // Close any currently open cards first
         btn.classList.add('active');
-        targetCard.classList.add('active');
+        if(targetCard) {
+          targetCard.classList.add('active');
+          body.classList.add('popup-active'); // Dims background
+        }
       }
     });
   });
@@ -85,14 +91,14 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Close tooltips if the user clicks anywhere else on the screen background
+  // Close tooltips if the user clicks anywhere else on the screen (the dimmed background)
   document.addEventListener('click', (e) => {
     if (!e.target.closest('.hotspot-card') && !e.target.closest('.hotspot')) {
       closeAllCards();
     }
   });
 
-  // Prevent clicking inside the tooltip from closing it
+  // Prevent clicking inside the card from closing it
   cards.forEach(card => {
     card.addEventListener('click', (e) => {
       e.stopPropagation();
