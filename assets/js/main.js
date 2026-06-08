@@ -53,12 +53,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const hotspots = document.querySelectorAll('.hotspot');
   const cards = document.querySelectorAll('.hotspot-card');
   const closeBtns = document.querySelectorAll('.close-card');
-  const body = document.body;
 
   function closeAllCards() {
     cards.forEach(card => card.classList.remove('active'));
     hotspots.forEach(btn => btn.classList.remove('active'));
-    body.classList.remove('popup-active');
   }
 
   // Open Tooltip when + is clicked
@@ -77,7 +75,6 @@ document.addEventListener("DOMContentLoaded", () => {
         btn.classList.add('active');
         if(targetCard) {
           targetCard.classList.add('active');
-          body.classList.add('popup-active'); // Dims background
         }
       }
     });
@@ -91,7 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Close tooltips if the user clicks anywhere else on the screen (the dimmed background)
+  // Close tooltips if the user clicks anywhere else on the screen
   document.addEventListener('click', (e) => {
     if (!e.target.closest('.hotspot-card') && !e.target.closest('.hotspot')) {
       closeAllCards();
