@@ -89,7 +89,8 @@ h4 { font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--primary-dark); padd
   padding: 20px;
   z-index: 1;
   animation: floatSlow 6s ease-in-out infinite alternate;
-  filter: drop-shadow(0 20px 30px rgba(0,0,0,0.15));
+  /* THIS REMOVES THE WHITE BACKGROUND: */
+  mix-blend-mode: multiply; 
 }
 
 @keyframes floatSlow { 
@@ -152,8 +153,14 @@ h4 { font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--primary-dark); padd
 .delay-1 { transition-delay: 0.15s; }
 .delay-2 { transition-delay: 0.3s; }
 
-/* Overlay to dim background when popup is active */
-body.popup-active::after { content: ''; position: fixed; inset: 0; background: rgba(255,255,255,0.6); backdrop-filter: blur(4px); z-index: 999; }
+/* Overlay to dim background when popup is active - BLUR REMOVED */
+body.popup-active::after { 
+  content: ''; 
+  position: fixed; 
+  inset: 0; 
+  background: rgba(255, 255, 255, 0.2); 
+  z-index: 999; 
+}
 
 /* Mobile */
 @media (max-width: 768px) {
