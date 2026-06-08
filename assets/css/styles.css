@@ -37,14 +37,14 @@ h1, h2, h3, h4 { color: var(--dark); line-height: 1.2; font-weight: 900; }
 h1 { font-size: clamp(2.5rem, 5vw, 4rem); letter-spacing: -1px; margin-bottom: 1rem; }
 h2 { font-size: clamp(2rem, 3.5vw, 2.5rem); margin-bottom: 1rem; }
 h3 { font-size: 1.25rem; margin-bottom: 0.5rem; }
-h4 { font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--primary-dark); padding-right: 20px;}
-.text-gradient { background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+h4 { font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--primary-dark); padding-right: 20px;}
+.text-gradient { background: linear-gradient(135deg, #2dd4bf, #0284c7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
 /* Components */
 .btn { display: inline-block; padding: 0.75rem 1.5rem; border-radius: 50px; font-weight: 700; transition: all 0.3s ease; text-align: center; cursor: pointer; }
 .btn-nav { background: var(--dark); color: var(--white); padding: 0.5rem 1.25rem; }
 .btn-nav:hover { background: var(--primary); }
-.btn-primary { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: var(--white); box-shadow: 0 10px 20px var(--primary-glow); }
+.btn-primary { background: linear-gradient(135deg, #10b981, #059669); color: var(--white); box-shadow: 0 10px 20px var(--primary-glow); }
 .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 15px 25px var(--primary-glow); }
 .btn-outline { border: 2px solid var(--border); color: var(--dark); background: transparent; }
 .btn-outline:hover { border-color: var(--dark); background: var(--dark); color: var(--white); }
@@ -62,44 +62,46 @@ h4 { font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--primary-dark); paddi
 .nav-links a { font-weight: 600; color: var(--text); transition: color 0.3s; }
 .nav-links a:hover { color: var(--primary); }
 
-/* Hero Text */
+/* Hero Area */
 .hero { position: relative; padding: 160px 0 100px; overflow: hidden; }
 .hero-bg-glow { position: absolute; top: -20%; right: -10%; width: 600px; height: 600px; background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%); border-radius: 50%; z-index: -1; }
 .hero-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 4rem; align-items: center; }
 .hero-sub { font-size: 1.15rem; margin-bottom: 1rem; color: var(--text); }
 .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
 
-/* --- INTERACTIVE HEART (Fatty15 Style) --- */
-.interactive-hero { position: relative; width: 100%; max-width: 450px; margin: 0 auto; }
-.interactive-hint { text-align: center; margin-bottom: 1rem; font-weight: 700; color: var(--primary-dark); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; }
-.interactive-container { position: relative; aspect-ratio: 1; }
+/* Interactive Visual (V1 Layout + Hotspots) */
+.glass-panel { background: #f8fafc; border-radius: 24px; padding: 3rem; text-align: center; border: 1px solid var(--border); box-shadow: 0 20px 40px -10px rgba(0,0,0,0.05); }
+.interactive-hint { font-size: 0.8rem; font-weight: 700; color: var(--primary-dark); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1.5rem; }
+.interactive-hint strong { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; background: var(--dark); color: white; border-radius: 50%; margin: 0 4px; }
 
-.heart-3d { width: 100%; height: 100%; animation: float 6s ease-in-out infinite; }
-@keyframes float { 
-  0%, 100% { transform: translateY(0); } 
-  50% { transform: translateY(-15px); } 
-}
+.molecule-interactive { position: relative; height: 320px; margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: center; }
+.node { position: absolute; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-weight: 900; box-shadow: 0 10px 25px rgba(0,0,0,0.1); transition: transform 0.3s ease; }
+.core-node { width: 160px; height: 160px; background: linear-gradient(135deg, #2dd4bf, #0284c7); color: var(--white); font-size: 3.5rem; z-index: 2; box-shadow: 0 15px 35px rgba(2, 132, 199, 0.3); }
+.secondary-node { width: 90px; height: 90px; background: var(--white); color: var(--dark); font-size: 1.1rem; z-index: 3; border: 1px solid var(--border); }
 
-/* Hotspots */
-.hotspot { position: absolute; width: 36px; height: 36px; border-radius: 50%; background: var(--white); border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10; color: var(--dark); box-shadow: 0 4px 10px rgba(0,0,0,0.15); transition: all 0.2s; transform: translate(-50%, -50%); }
-.hotspot::after { content: ''; position: absolute; inset: -6px; border-radius: 50%; border: 2px solid var(--white); animation: ripple 2s infinite; opacity: 0; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-@keyframes ripple { 
-  0% { transform: scale(0.8); opacity: 1; } 
-  100% { transform: scale(1.5); opacity: 0; } 
-}
+/* Floating animation for bubbles */
+@keyframes float1 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+@keyframes float2 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(10px); } }
 
-.hotspot:hover, .hotspot.active { background: var(--dark); color: var(--white); transform: translate(-50%, -50%) scale(1.1); }
-.hotspot .plus { font-size: 20px; font-weight: 400; line-height: 1; margin-top: -2px; transition: transform 0.3s; }
-.hotspot.active .plus { transform: rotate(45deg); } /* Turns + to X */
+.n1 { top: 10%; left: 10%; animation: float1 5s infinite ease-in-out; }
+.n2 { bottom: 15%; right: 5%; animation: float2 6s infinite ease-in-out; }
+.n3 { bottom: 5%; left: 20%; animation: float1 7s infinite ease-in-out; }
 
-/* Pop-up Cards */
-.hotspot-card { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -40%) scale(0.95); background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); padding: 1.5rem; border-radius: 16px; box-shadow: 0 20px 40px rgba(0,0,0,0.15); width: 300px; z-index: 20; opacity: 0; pointer-events: none; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); border: 1px solid var(--border); }
+/* The Plus Buttons (Fatty15 Style) */
+.hotspot { position: absolute; bottom: -10px; right: 5px; width: 28px; height: 28px; border-radius: 50%; background: var(--white); color: var(--text-light); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: all 0.2s; padding: 0; }
+.hotspot:hover, .hotspot.active { background: var(--dark); color: var(--white); border-color: var(--dark); transform: scale(1.1); }
+.hotspot .plus { font-size: 18px; font-weight: 700; line-height: 1; transition: transform 0.3s; margin-top: -2px; }
+.hotspot.active .plus { transform: rotate(45deg); }
+
+/* Pop-up Info Cards (Fatty15 Style) */
+.hotspot-card { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -40%) scale(0.95); background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(10px); padding: 2rem; border-radius: 16px; box-shadow: 0 20px 50px rgba(0,0,0,0.2); width: 90%; max-width: 380px; z-index: 1000; opacity: 0; pointer-events: none; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); border: 1px solid var(--border); text-align: left; }
 .hotspot-card.active { opacity: 1; pointer-events: auto; transform: translate(-50%, -50%) scale(1); }
-.hotspot-card p { font-size: 0.9rem; margin: 0; color: var(--text); line-height: 1.5; }
+.hotspot-card p { font-size: 0.95rem; margin: 0; color: var(--text); line-height: 1.6; }
 
-.close-card { position: absolute; top: 12px; right: 12px; background: var(--light); border: none; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text-light); font-size: 18px; line-height: 1; transition: background 0.2s, color 0.2s; }
-.close-card:hover { background: #f1f5f9; color: var(--dark); }
+.close-card { position: absolute; top: 12px; right: 12px; background: var(--light); border: none; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text-light); font-size: 18px; transition: background 0.2s, color 0.2s; line-height: 1;}
+.close-card:hover { background: #e2e8f0; color: var(--dark); }
 
+.benefit-list { list-style: none; display: inline-flex; flex-direction: column; gap: 12px; font-weight: 700; color: var(--dark); align-items: flex-start; margin-top: 1rem; }
 
 /* Grids & Cards */
 .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 3rem; }
@@ -140,10 +142,20 @@ h4 { font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--primary-dark); paddi
 .delay-1 { transition-delay: 0.15s; }
 .delay-2 { transition-delay: 0.3s; }
 
+/* Overlay to dim background when popup is active */
+body.popup-active::after { content: ''; position: fixed; inset: 0; background: rgba(255,255,255,0.6); backdrop-filter: blur(4px); z-index: 999; }
+
 /* Mobile */
 @media (max-width: 768px) {
   .hero-grid { grid-template-columns: 1fr; gap: 3rem; text-align: center; }
   .hero-actions { justify-content: center; }
   .nav-links { display: none; }
   .section { padding: 60px 0; }
+  .glass-panel { padding: 2rem 1.5rem; }
+  .molecule-interactive { height: 280px; }
+  .core-node { width: 130px; height: 130px; font-size: 2.5rem; }
+  .secondary-node { width: 80px; height: 80px; font-size: 1rem; }
+  .n1 { top: 5%; left: 5%; }
+  .n2 { bottom: 10%; right: 0%; }
+  .n3 { bottom: 0%; left: 10%; }
 }
