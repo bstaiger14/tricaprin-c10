@@ -1,4 +1,3 @@
 User-agent: *
 Allow: /
-
 Sitemap: https://tricaprin-c10.com/sitemap.xml
