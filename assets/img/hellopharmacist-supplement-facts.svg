@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 430 520" role="img" aria-labelledby="title desc">
+  <title id="title">Supplement Facts Panel</title>
+  <desc id="desc">Supplement facts showing serving size two softgels and C10 capric acid triglycerides from tricaprin.</desc>
+  <rect width="430" height="520" rx="28" fill="#f8fbff"/>
+  <rect x="33" y="32" width="364" height="456" rx="18" fill="#fff" stroke="#121212" stroke-width="5"/>
+  <g font-family="Arial, Helvetica, sans-serif" fill="#151515">
+    <text x="55" y="91" font-size="46" font-weight="900">SUPPLEMENT</text>
+    <text x="55" y="141" font-size="46" font-weight="900">FACTS</text>
+    <text x="55" y="181" font-size="22" font-weight="700">Serving Size: 2 Softgels</text>
+    <text x="55" y="213" font-size="22" font-weight="700">Servings Per Container: 60</text>
+    <rect x="55" y="234" width="320" height="12" fill="#151515"/>
+    <text x="55" y="284" font-size="27" font-weight="900">Amount Per Serving</text>
+    <text x="338" y="284" font-size="27" font-weight="900">%DV</text>
+    <rect x="55" y="301" width="320" height="7" fill="#151515"/>
+    <text x="55" y="351" font-size="28">Total Fat 1g</text>
+    <text x="338" y="351" font-size="28">1%**</text>
+    <line x1="55" y1="369" x2="375" y2="369" stroke="#151515" stroke-width="3"/>
+    <text x="55" y="415" font-size="25">C10 Capric Acid</text>
+    <text x="55" y="448" font-size="25">Triglycerides</text>
+    <text x="55" y="481" font-size="25">(from Tricaprin) 1g</text>
+    <text x="353" y="448" font-size="32">†</text>
+  </g>
+</svg>

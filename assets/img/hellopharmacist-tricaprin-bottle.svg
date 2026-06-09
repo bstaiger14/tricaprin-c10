@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 520" role="img" aria-labelledby="title desc">
+  <title id="title">HelloPharmacist Pure Tricaprin C10 Bottle</title>
+  <desc id="desc">Stylized product bottle labeled Pure Tricaprin C10, 1,000 milligrams per serving, pure C10 no blends, COA verified.</desc>
+  <defs>
+    <linearGradient id="bottle" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#fff"/><stop offset="0.45" stop-color="#f6fbff"/><stop offset="1" stop-color="#dfe8ef"/></linearGradient>
+    <linearGradient id="label" x1="0" x2="1"><stop offset="0" stop-color="#dff7ff"/><stop offset="0.55" stop-color="#bfeeff"/><stop offset="1" stop-color="#d7f5ff"/></linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="18" stdDeviation="16" flood-color="#003d73" flood-opacity=".22"/></filter>
+  </defs>
+  <rect width="360" height="520" fill="#f8fbff" rx="28"/>
+  <g filter="url(#shadow)">
+    <rect x="103" y="24" width="154" height="68" rx="18" fill="#f7f7f2" stroke="#d8dde3"/>
+    <path d="M98 91h164l15 65v280c0 35-28 56-97 56s-97-21-97-56V156z" fill="url(#bottle)" stroke="#cfd8e3" stroke-width="3"/>
+    <path d="M98 91h164" stroke="#aeb8c5" stroke-width="6" opacity=".45"/>
+    <g opacity=".8" fill="#f8f5c8">
+      <ellipse cx="128" cy="150" rx="28" ry="15"/><ellipse cx="180" cy="145" rx="32" ry="17"/><ellipse cx="230" cy="155" rx="28" ry="14"/>
+      <ellipse cx="145" cy="415" rx="34" ry="16"/><ellipse cx="210" cy="417" rx="36" ry="17"/>
+    </g>
+    <rect x="82" y="188" width="196" height="186" rx="18" fill="url(#label)" stroke="#b4e8fa"/>
+    <g font-family="Inter, Arial, sans-serif" text-anchor="middle">
+      <text x="180" y="226" fill="#0b4a7f" font-size="20" font-weight="700">Hello</text>
+      <text x="180" y="250" fill="#0b4a7f" font-size="20" font-weight="700">Pharmacist</text>
+      <text x="180" y="292" fill="#064c91" font-size="30" font-weight="900" letter-spacing="1">PURE TRICAPRIN</text>
+      <rect x="136" y="306" width="88" height="34" rx="17" fill="#0069bd"/>
+      <text x="180" y="331" fill="#fff" font-size="25" font-weight="800">C10</text>
+      <text x="180" y="359" fill="#084a82" font-size="13" font-weight="700">Pure C10 Capric Acid Triglycerides</text>
+      <rect x="102" y="384" width="156" height="34" rx="17" fill="#0bb6d8"/>
+      <text x="180" y="407" fill="#fff" font-size="20" font-weight="900">1,000mg</text>
+      <text x="180" y="451" fill="#0b4a7f" font-size="15" font-weight="800">Pure C10 • No Blends</text>
+      <text x="180" y="474" fill="#0b4a7f" font-size="15" font-weight="800">COA Verified</text>
+    </g>
+  </g>
+</svg>
