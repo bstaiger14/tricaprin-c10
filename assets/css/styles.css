@@ -150,7 +150,7 @@ h4 { font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--primary-dark); padd
 .heart-explorer-copy p { color: var(--text-light); font-size: 1.08rem; max-width: 440px; }
 .heart-panel { background: rgba(255, 255, 255, 0.88); }
 
-/* Difference Section (Re-styled for Clinical vibe) */
+/* Difference Section (Clinical styling) */
 .c10-difference-section { background: radial-gradient(circle at 50% 0%, rgba(0, 113, 227, 0.10), transparent 34%), var(--white); }
 .section-chip { display: inline-flex; align-items: center; padding: 0.4rem 0.85rem; border-radius: 50px; background: rgba(0, 113, 227, 0.08); color: var(--primary); font-size: 0.75rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 1rem; }
 .c10-story-grid { display: grid; grid-template-columns: minmax(320px, 0.95fr) minmax(0, 1.05fr); gap: 2rem; align-items: stretch; }
@@ -315,50 +315,6 @@ h4 { font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--primary-dark); padd
 }
 
 /* Punchier C10 Homepage Updates */
-.brand-badge {
-  position: relative;
-  display: inline-flex;
-  align-items: baseline;
-  gap: 0.55rem;
-  padding: 0.55rem 1.05rem 0.55rem 1.25rem;
-  border-radius: 18px;
-  background: #0b1220;
-  color: #ffffff;
-  border: 1px solid rgba(0, 113, 227, 0.32);
-  box-shadow: 0 16px 34px rgba(0, 44, 92, 0.16), inset 0 1px 0 rgba(255,255,255,0.14);
-  isolation: isolate;
-  overflow: hidden;
-}
-.brand-badge::before {
-  content: "";
-  position: absolute;
-  inset: -60% auto auto -20%;
-  width: 110px;
-  height: 110px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(66,165,245,0.55), transparent 68%);
-  z-index: -1;
-}
-.brand-badge span {
-  font-size: 0.78rem;
-  font-weight: 900;
-  letter-spacing: 1.6px;
-  text-transform: uppercase;
-}
-.brand-badge strong {
-  display: inline-grid;
-  place-items: center;
-  min-width: 3.25rem;
-  padding: 0.16rem 0.55rem;
-  border-radius: 999px;
-  background: linear-gradient(135deg, #0af, #0071e3 48%, #00449e);
-  color: #ffffff;
-  font-size: 1rem;
-  font-weight: 900;
-  letter-spacing: -0.04em;
-  box-shadow: 0 8px 18px rgba(0,113,227,0.32);
-}
-
 .hotspot {
   width: 38px;
   height: 38px;
@@ -382,7 +338,7 @@ h4 { font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--primary-dark); padd
   letter-spacing: -0.035em;
 }
 .hotspot-card h4::before {
-  content: "Hotspot";
+  content: "Tap to learn";
   display: block;
   color: var(--primary);
   font-size: 0.68rem;
@@ -613,8 +569,53 @@ h4 { font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--primary-dark); padd
 }
 
 @media (max-width: 768px) {
-  .brand-badge { border-radius: 16px; }
+  .hero-kicker { border-radius: 16px; }
   .comparison-callouts { grid-template-columns: 1fr; }
   .versus-card { min-height: auto; }
   .c10-vs-strip__highlight { transform: none; }
+}
+
+
+/* Product proof updates */
+.hero-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 1rem;
+  color: var(--primary-dark);
+  font-size: 0.82rem;
+  font-weight: 900;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  padding: 0.6rem 0.9rem;
+  border-left: 4px solid var(--primary);
+  border-radius: 12px;
+  background: linear-gradient(90deg, rgba(0,113,227,0.11), rgba(255,255,255,0));
+}
+
+.product-proof {
+  display: grid;
+  grid-template-columns: minmax(110px, 0.82fr) minmax(150px, 1fr);
+  gap: 0.85rem;
+  align-items: stretch;
+  margin-top: 1.25rem;
+  padding: 0.85rem;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.86);
+  border: 1px solid rgba(0,113,227,0.18);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.9), 0 18px 34px rgba(0,44,92,0.12);
+}
+.product-proof img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 14px;
+  background: #f8fbff;
+}
+.product-proof__bottle { padding: 0.35rem; }
+.product-proof__facts { padding: 0.2rem; }
+
+@media (max-width: 520px) {
+  .product-proof { grid-template-columns: 1fr; }
+  .product-proof img { max-height: 280px; }
 }
