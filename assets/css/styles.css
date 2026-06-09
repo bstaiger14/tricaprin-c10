@@ -73,6 +73,38 @@ h4 { font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--primary-dark); padd
 .hero-sub { font-size: 1.15rem; margin-bottom: 1rem; color: var(--text-light); }
 .hero-sub strong { color: var(--text); font-weight: 600;}
 .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+.hero-proof { align-self: stretch; display: flex; align-items: center; }
+.quote-panel {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  padding: clamp(2rem, 4vw, 3.25rem);
+  border-radius: 34px;
+  background: linear-gradient(145deg, #ffffff 0%, #f5f9ff 56%, #eef6ff 100%);
+  border: 1px solid rgba(0, 113, 227, 0.16);
+  box-shadow: 0 28px 60px rgba(0, 44, 92, 0.12), inset 0 1px 0 rgba(255,255,255,0.9);
+}
+.quote-panel::before {
+  content: "“";
+  position: absolute;
+  top: -2.7rem;
+  right: 1.2rem;
+  color: rgba(0, 113, 227, 0.1);
+  font-size: 13rem;
+  line-height: 1;
+  font-weight: 900;
+  letter-spacing: -0.08em;
+}
+.quote-kicker { position: relative; z-index: 1; display: inline-flex; align-items: center; gap: 0.5rem; color: var(--primary); font-size: 0.75rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 1.2rem; }
+.quote-kicker::before { content: ""; width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--primary); box-shadow: 0 0 0 6px rgba(0, 113, 227, 0.1); }
+.quote-panel blockquote { position: relative; z-index: 1; margin: 0; color: var(--dark); font-size: clamp(2rem, 4vw, 3.8rem); line-height: 0.98; letter-spacing: -0.06em; font-weight: 900; }
+.quote-context { position: relative; z-index: 1; margin: 1.4rem 0 0; color: var(--text-light); font-size: 1rem; line-height: 1.65; }
+.quote-stat-row { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; margin: 1.5rem 0; }
+.quote-stat-row div { padding: 1rem; border-radius: 18px; background: rgba(255,255,255,0.72); border: 1px solid rgba(0, 113, 227, 0.1); }
+.quote-stat-row strong { display: block; color: var(--dark); font-size: 1.25rem; line-height: 1; }
+.quote-stat-row span { display: block; margin-top: 0.35rem; color: var(--text-light); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; }
+.quote-source { position: relative; z-index: 1; color: var(--primary); font-weight: 800; font-size: 0.95rem; }
+.quote-source:hover { color: var(--primary-dark); }
 
 /* Interactive Visual Container (Clinical Glass) */
 .glass-panel { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(40px); border-radius: 30px; padding: 3rem; text-align: center; border: 1px solid rgba(255,255,255,0.8); box-shadow: 0 20px 40px -10px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,1); }
@@ -114,6 +146,13 @@ h4 { font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--primary-dark); padd
 .close-card:hover { background: #e5e5ea; color: var(--dark); }
 
 .benefit-list { list-style: none; display: inline-flex; flex-direction: column; gap: 12px; font-weight: 600; color: var(--dark); align-items: flex-start; margin-top: 1rem; font-size: 0.95rem;}
+
+.heart-explorer-section { position: relative; overflow: hidden; background: var(--white); padding-top: 90px; }
+.heart-explorer-section::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 220px; background: linear-gradient(180deg, var(--light) 0%, rgba(245,245,247,0) 100%); pointer-events: none; }
+.heart-explorer-grid { position: relative; display: grid; grid-template-columns: minmax(280px, 0.75fr) minmax(0, 1fr); gap: 3rem; align-items: center; }
+.heart-explorer-copy h2 { font-size: clamp(2rem, 4vw, 3rem); }
+.heart-explorer-copy p { color: var(--text-light); font-size: 1.08rem; max-width: 440px; }
+.heart-panel { background: rgba(255, 255, 255, 0.88); }
 
 /* Difference Section (Re-styled for Clinical vibe) */
 .c10-difference-section { background: var(--white); }
@@ -170,7 +209,10 @@ body.popup-active::after { content: ''; position: fixed; inset: 0; background: r
 
 /* Mobile */
 @media (max-width: 992px) {
-  .hero-grid, .c10-story-grid, .c10-vs-strip { grid-template-columns: 1fr; }
+  .hero-grid, .heart-explorer-grid, .c10-story-grid, .c10-vs-strip { grid-template-columns: 1fr; }
+  .hero-proof { align-self: auto; }
+  .heart-explorer-copy { text-align: center; }
+  .heart-explorer-copy p { margin-left: auto; margin-right: auto; }
   .c10-vs-strip__center { justify-self: center; }
 }
 
@@ -178,6 +220,8 @@ body.popup-active::after { content: ''; position: fixed; inset: 0; background: r
   .nav-links { display: none; }
   .section { padding: 60px 0; }
   .glass-panel { padding: 2rem 1.5rem; }
+  .quote-panel { border-radius: 26px; }
+  .quote-stat-row { grid-template-columns: 1fr; }
   .molecule-interactive { height: 280px; }
   .c10-story-panel { min-height: auto; }
 }
