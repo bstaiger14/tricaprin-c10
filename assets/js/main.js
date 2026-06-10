@@ -41,6 +41,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Navbar shadow drops on scroll
   const navbar = document.querySelector(".navbar");
+
+  // Mobile visual section menu
+  const menuToggle = document.querySelector(".mobile-menu-toggle");
+  const siteMenu = document.querySelector("#site-menu");
+
+  function setMenuOpen(isOpen) {
+    navbar?.classList.toggle("menu-open", isOpen);
+    menuToggle?.setAttribute("aria-expanded", String(isOpen));
+    menuToggle?.setAttribute("aria-label", isOpen ? "Close section menu" : "Open section menu");
+  }
+
+  if (menuToggle && siteMenu) {
+    menuToggle.addEventListener("click", (e) => {
+      e.stopPropagation();
+      setMenuOpen(!navbar?.classList.contains("menu-open"));
+    });
+
+    siteMenu.querySelectorAll('a[href^="#"]').forEach(link => {
+      link.addEventListener("click", () => setMenuOpen(false));
+    });
+
+    document.addEventListener("click", (e) => {
+      if (!e.target.closest(".navbar")) {
+        setMenuOpen(false);
+      }
+    });
+  }
   window.addEventListener("scroll", () => {
     if (window.scrollY > 20) {
       navbar.style.boxShadow = "0 4px 20px rgba(0, 0, 0, 0.05)";
