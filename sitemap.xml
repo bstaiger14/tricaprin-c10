@@ -4,4 +4,8 @@
     <loc>https://tricaprin-c10.com/</loc>
     <priority>1.0</priority>
   </url>
+  <url>
+    <loc>https://tricaprin-c10.com/faq.html</loc>
+    <priority>0.8</priority>
+  </url>
 </urlset>
