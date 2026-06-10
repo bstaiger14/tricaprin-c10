@@ -1193,7 +1193,20 @@ h4 { font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--primary-dark); padd
   animation: sponsorStreak 4s ease-in-out infinite;
 }
 .faq-hero-card h2,
-.faq-hero-card p { position: relative; z-index: 1; color: #ffffff; }
+.faq-hero-card p,
+.faq-card-kicker { position: relative; z-index: 1; color: #ffffff; }
+.faq-card-kicker {
+  display: inline-block;
+  margin-bottom: 0.85rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.16);
+  border: 1px solid rgba(255,255,255,0.32);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
 .faq-hero-card h2 {
   font-size: clamp(1.75rem, 3.2vw, 2.7rem);
   letter-spacing: -0.055em;
