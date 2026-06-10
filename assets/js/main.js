@@ -189,4 +189,31 @@ document.addEventListener("DOMContentLoaded", () => {
 
     metricNumbers.forEach(metric => metricObserver.observe(metric));
   }
+
+  // Cookie consent banner
+  const cookieConsentKey = "tricaprinCookieConsent";
+  const existingCookieConsent = localStorage.getItem(cookieConsentKey);
+
+  if (!existingCookieConsent) {
+    const banner = document.createElement("section");
+    banner.className = "cookie-banner";
+    banner.setAttribute("aria-label", "Cookie consent");
+    banner.innerHTML = `
+      <strong>Cookie preferences</strong>
+      <p>We use essential cookies to keep the site working. With your permission, we may also use optional cookies to understand site performance and improve this educational content.</p>
+      <div class="cookie-actions">
+        <button type="button" class="btn btn-primary" data-cookie-choice="accepted">Accept</button>
+        <button type="button" class="btn btn-outline" data-cookie-choice="rejected">Reject</button>
+      </div>
+    `;
+    document.body.appendChild(banner);
+
+    banner.querySelectorAll("[data-cookie-choice]").forEach(button => {
+      button.addEventListener("click", () => {
+        localStorage.setItem(cookieConsentKey, button.getAttribute("data-cookie-choice"));
+        banner.hidden = true;
+      });
+    });
+  }
+
 });
