@@ -18,13 +18,17 @@ document.addEventListener("DOMContentLoaded", () => {
     observer.observe(el);
   });
 
-  // Smooth Scrolling for Navigation
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  // Smooth Scrolling for same-page hash links
+  document.querySelectorAll('a[href*="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
+      const url = new URL(this.getAttribute('href'), window.location.href);
+      const isSamePage = url.pathname === window.location.pathname && url.hash;
+      if (!isSamePage) return;
+
       e.preventDefault();
-      const targetId = this.getAttribute('href');
+      const targetId = url.hash;
       if (targetId === '#') return;
-      
+
       const targetElement = document.querySelector(targetId);
       if (targetElement) {
         const headerOffset = 80;
@@ -58,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
       setMenuOpen(!navbar?.classList.contains("menu-open"));
     });
 
-    siteMenu.querySelectorAll('a[href^="#"]').forEach(link => {
+    siteMenu.querySelectorAll('a').forEach(link => {
       link.addEventListener("click", () => setMenuOpen(false));
     });
 
