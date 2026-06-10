@@ -131,7 +131,6 @@ h4 { font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--primary-dark); padd
 .product-stage { position: relative; width: 100%; min-height: clamp(560px, 62vw, 700px); display: flex; align-items: center; justify-content: flex-start; overflow: visible; }
 .product-halo { position: absolute; left: clamp(2rem, 10vw, 10rem); top: 50%; width: clamp(320px, 46vw, 560px); height: clamp(320px, 46vw, 560px); border-radius: 50%; background: radial-gradient(circle, rgba(0,113,227,0.28), rgba(66,165,245,0.16) 34%, transparent 68%); filter: blur(10px); transform: translate(-50%, -50%); animation: pulseHalo 3.8s ease-in-out infinite; }
 .product-bottle { position: relative; z-index: 1; width: clamp(420px, 58vw, 680px); max-width: none; max-height: none; margin-left: clamp(-4.5rem, -6vw, -2rem); object-fit: contain; filter: drop-shadow(0 34px 38px rgba(0, 44, 92, 0.28)); animation: floatSlow 6s ease-in-out infinite alternate; }
-.purity-ribbon { position: absolute; left: clamp(15.5rem, 30vw, 27rem); top: clamp(2.5rem, 5vw, 4rem); z-index: 3; padding: 0.65rem 1rem; border-radius: 999px; color: #ffffff; background: linear-gradient(135deg, var(--dark), var(--primary)); font-size: 0.8rem; font-weight: 900; letter-spacing: 0.8px; text-transform: uppercase; box-shadow: 0 14px 24px rgba(0, 44, 92, 0.18); }
 .product-property-cloud { position: absolute; inset: 0 0 0 auto; z-index: 2; width: min(48%, 480px); pointer-events: none; }
 .property-card { position: absolute; display: flex; align-items: center; gap: 0.85rem; min-width: min(100%, 315px); padding: 0.95rem 1.05rem; border-radius: 999px; text-align: left; background: rgba(255,255,255,0.88); border: 1px solid rgba(0, 113, 227, 0.18); box-shadow: 0 20px 42px rgba(0, 44, 92, 0.13), inset 0 1px 0 rgba(255,255,255,0.95); backdrop-filter: blur(18px); animation: flyInFloat 6.5s ease-in-out infinite alternate; }
 .property-card span { flex: 0 0 auto; display: inline-grid; place-items: center; min-width: 3.1rem; height: 3.1rem; padding: 0 0.5rem; border-radius: 999px; color: #ffffff; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); font-weight: 900; letter-spacing: -0.03em; box-shadow: 0 10px 22px var(--primary-glow); }
@@ -257,7 +256,6 @@ h4 { font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--primary-dark); padd
   .product-stage { min-height: 860px; flex-direction: column; justify-content: center; }
   .product-halo { left: 50%; top: 36%; }
   .product-bottle { width: min(100%, 620px); margin-left: 0; }
-  .purity-ribbon { left: 50%; top: 4%; transform: translateX(-50%); }
   .product-property-cloud { position: relative; inset: auto; width: min(100%, 720px); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.8rem; margin-top: -3rem; }
   .property-card, .property-card-softgels, .property-card-serving, .property-card-absorption, .property-card-ingredients { position: relative; top: auto; right: auto; min-width: 0; border-radius: 24px; animation: none; }
 }
@@ -273,7 +271,6 @@ h4 { font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--primary-dark); padd
   .product-bottle { width: min(118%, 520px); }
   .product-property-cloud { grid-template-columns: 1fr; margin-top: -2.5rem; }
   .property-card { padding: 0.85rem 0.9rem; }
-  .purity-ribbon { top: 3%; font-size: 0.72rem; }
   .section { padding: 60px 0; }
   .glass-panel { padding: 2rem 1.5rem; }
   .quote-panel { border-radius: 26px; }
