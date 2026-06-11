@@ -768,11 +768,14 @@ h4 { font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--primary-dark); padd
 .hello-portrait-frame {
   position: relative;
   z-index: 1;
-  width: min(100%, 480px);
-  aspect-ratio: 1 / 1.1;
+  width: min(92%, 420px);
+  aspect-ratio: 1 / 1.08;
   display: flex;
   align-items: flex-end;
   justify-content: center;
+  overflow: hidden;
+  border-radius: 34px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.18), rgba(255,255,255,0.04));
 }
 .hello-portrait-frame::after {
   content: "";
@@ -789,10 +792,12 @@ h4 { font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--primary-dark); padd
 .hello-portrait {
   position: relative;
   z-index: 1;
-  width: 112%;
+  width: 100%;
   max-width: none;
   object-fit: contain;
-  filter: drop-shadow(0 28px 38px rgba(0, 16, 40, 0.30));
+  border-radius: 30px;
+  opacity: 0.94;
+  filter: drop-shadow(0 28px 38px rgba(0, 16, 40, 0.24));
 }
 .hello-founder-badge {
   position: absolute;
@@ -955,7 +960,8 @@ h4 { font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--primary-dark); padd
 @media (max-width: 560px) {
   .hello-section { padding: 70px 0; }
   .hello-portrait-card { min-height: 460px; border-radius: 28px; }
-  .hello-portrait { width: 124%; }
+  .hello-portrait-frame { width: min(94%, 360px); }
+  .hello-portrait { width: 100%; }
   .hello-founder-badge { border-radius: 20px; }
   .hello-proof-card, .hello-trust-panel, .hello-cta-panel { border-radius: 20px; }
 }
@@ -1553,4 +1559,96 @@ h4 { font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--primary-dark); padd
     width: auto;
   }
   .cookie-actions .btn { flex: 1 1 10rem; }
+}
+
+/* Informational pages (About, Privacy, Contact) */
+.info-page {
+  background:
+    radial-gradient(circle at 9% 10%, rgba(0, 113, 227, 0.14), transparent 28rem),
+    radial-gradient(circle at 90% 14%, rgba(66, 165, 245, 0.13), transparent 24rem),
+    var(--light);
+}
+.info-hero {
+  padding: 158px 0 80px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(239,247,255,0.96) 55%, rgba(227,242,255,0.96) 100%);
+}
+.compact-info-hero { min-height: 68vh; display: flex; align-items: center; }
+.info-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.46fr);
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: center;
+}
+.info-hero h1 {
+  max-width: 760px;
+  font-size: clamp(2.75rem, 5.8vw, 5.3rem);
+  letter-spacing: -0.07em;
+  line-height: 0.98;
+}
+.info-hero p {
+  max-width: 760px;
+  color: var(--dark-light);
+  font-size: clamp(1.05rem, 1.6vw, 1.24rem);
+  line-height: 1.7;
+}
+.info-hero-card,
+.contact-card {
+  padding: clamp(1.5rem, 3vw, 2.2rem);
+  border: 1px solid rgba(0, 113, 227, 0.16);
+  border-radius: 28px;
+  background: rgba(255,255,255,0.82);
+  box-shadow: 0 24px 60px rgba(0, 44, 92, 0.10);
+  backdrop-filter: blur(18px);
+}
+.info-hero-card strong,
+.contact-card span {
+  display: block;
+  color: var(--primary-dark);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 1px;
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+}
+.contact-card a {
+  display: inline-block;
+  color: var(--primary);
+  font-size: clamp(1.25rem, 2vw, 1.65rem);
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+.info-section { background: var(--white); }
+.info-content {
+  max-width: 840px;
+  padding: clamp(1.5rem, 4vw, 3rem);
+  border: 1px solid rgba(0, 113, 227, 0.12);
+  border-radius: 30px;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+  box-shadow: 0 22px 54px rgba(0, 44, 92, 0.08);
+}
+.info-content h2 { margin-top: 2.1rem; }
+.info-content h2:first-child { margin-top: 0; }
+.info-content p,
+.info-content li { color: var(--dark-light); font-size: 1.04rem; line-height: 1.75; }
+.info-content p + p { margin-top: 1rem; }
+.info-content ul { margin: 1rem 0 0 1.35rem; }
+.info-content a { color: var(--primary); font-weight: 700; }
+.info-callout {
+  margin-top: 2.4rem;
+  padding: 1.5rem;
+  border-radius: 22px;
+  background: rgba(0, 113, 227, 0.08);
+  border: 1px solid rgba(0, 113, 227, 0.18);
+}
+.info-callout h3 { color: var(--primary-dark); }
+.legal-content h2 { color: var(--primary-dark); }
+
+@media (max-width: 880px) {
+  .info-hero-grid { grid-template-columns: 1fr; }
+  .compact-info-hero { min-height: auto; }
+}
+
+@media (max-width: 560px) {
+  .info-hero { padding: 132px 0 58px; }
+  .info-content { border-radius: 24px; }
 }
