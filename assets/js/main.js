@@ -1,3 +1,12 @@
+// Keep legacy .html visits looking like modern clean URLs without reloading the page.
+(() => {
+  const cleanPath = window.location.pathname.replace(/\.html$/, "");
+
+  if (cleanPath !== window.location.pathname) {
+    window.history.replaceState(null, "", `${cleanPath || "/"}${window.location.search}${window.location.hash}`);
+  }
+})();
+
 document.addEventListener("DOMContentLoaded", () => {
   // Intersection Observer for scroll fade-in animations
   const observerOptions = {
