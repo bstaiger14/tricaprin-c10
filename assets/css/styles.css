@@ -736,11 +736,13 @@ h4 { font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--primary-dark); padd
 }
 .hello-portrait-card {
   position: relative;
-  align-self: stretch;
+  align-self: center;
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  min-height: 620px;
+  width: min(100%, 520px);
+  min-height: 0;
+  margin: 0 auto;
   padding: clamp(1rem, 3vw, 2rem);
   border-radius: 38px;
   background:
@@ -767,6 +769,7 @@ h4 { font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--primary-dark); padd
   z-index: 1;
   width: min(92%, 420px);
   aspect-ratio: 1 / 1.08;
+  max-height: 520px;
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -942,7 +945,7 @@ h4 { font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--primary-dark); padd
 
 @media (max-width: 992px) {
   .hello-grid { grid-template-columns: 1fr; }
-  .hello-portrait-card { min-height: 560px; max-width: 620px; width: 100%; margin: 0 auto; }
+  .hello-portrait-card { max-width: 620px; width: 100%; margin: 0 auto; }
   .hello-copy { text-align: center; }
   .hello-copy h2, .hello-lede { margin-left: auto; margin-right: auto; }
   .hello-trust-panel { text-align: left; }
@@ -956,7 +959,7 @@ h4 { font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--primary-dark); padd
 
 @media (max-width: 560px) {
   .hello-section { padding: 70px 0; }
-  .hello-portrait-card { min-height: 460px; border-radius: 28px; }
+  .hello-portrait-card { border-radius: 28px; }
   .hello-portrait-frame { width: min(94%, 360px); }
   .hello-portrait { width: 100%; }
   .hello-founder-badge { border-radius: 20px; }
