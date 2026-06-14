@@ -999,6 +999,9 @@ h4 { font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--primary-dark); padd
 }
 .floating-buy-btn:hover { transform: translateY(-3px); box-shadow: 0 24px 48px rgba(0, 71, 171, 0.42); }
 .floating-buy-icon { display: inline-grid; place-items: center; width: 2rem; height: 2rem; border-radius: 50%; background: rgba(255,255,255,0.18); }
+.floating-contact-btn {
+  text-align: center;
+}
 
 @media (max-width: 768px) {
   .mobile-menu-toggle { display: inline-flex; }
@@ -1612,10 +1615,15 @@ h4 { font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--primary-dark); padd
 }
 .contact-card a {
   display: inline-block;
+  max-width: 100%;
   color: var(--primary);
-  font-size: clamp(1.25rem, 2vw, 1.65rem);
+  font-size: clamp(1rem, 1.7vw, 1.45rem);
   font-weight: 800;
-  overflow-wrap: anywhere;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+}
+@media (max-width: 560px) {
+  .contact-card a { font-size: clamp(0.95rem, 4.4vw, 1.15rem); }
 }
 .info-section { background: var(--white); }
 .info-content {
