@@ -84,13 +84,17 @@ function renderLoading(medication) {
   </div>`;
 }
 function renderSearchedDrug(data) { return data.drugSearched ? `<article class="interaction-result-card interaction-searched-drug">${field('Searched drug', data.drugSearched)}</article>` : ''; }
+function renderMctSafetyQuestion(data) {
+  const drug = normalizeDrugName(data.drugSearched || input?.value);
+  return drug ? `<h2 class="mct-safety-question">Can you take MCT oil (tricaprin) with ${escapeHtml(drug)}?</h2>` : '';
+}
 function renderMctSafety(data) {
   const badge = data.aiSummary?.mctSafetyBadge;
   const reason = data.aiSummary?.mctSafetyReason;
   if (!badge && !reason) return '';
   const isCaution = String(badge || '').toLowerCase() === 'use caution';
   const badgeClass = isCaution ? 'mct-badge-caution' : 'mct-badge-safe';
-  return `<div class="mct-result-badge-wrap">${badge ? `<span class="mct-result-badge ${badgeClass}">${escapeHtml(badge)}</span>` : ''}${reason ? `<p class="mct-badge-reason">${escapeHtml(reason)}</p>` : ''}</div>`;
+  return `<div class="mct-result-badge-wrap">${renderMctSafetyQuestion(data)}${badge ? `<span class="mct-result-badge ${badgeClass}">${escapeHtml(badge)}</span>` : ''}${reason ? `<p class="mct-badge-reason">${escapeHtml(reason)}</p>` : ''}</div>`;
 }
 function renderMctContext(data) { return data.aiSummary?.mctOilContext ? `<article class="interaction-result-card"><h2>MCT Oil / Tricaprin Context</h2><p class="interaction-description">${escapeHtml(data.aiSummary.mctOilContext)}</p></article>` : ''; }
 function renderSummary(data) {
