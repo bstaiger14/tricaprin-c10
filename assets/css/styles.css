@@ -1964,6 +1964,30 @@ h4 { font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--primary-dark); padd
   padding: 0 0.12rem;
 }
 
+.medication-overview-card h3 {
+  color: var(--dark);
+  font-size: 1.08rem;
+  margin: -0.25rem 0 0.75rem;
+}
+
+.medline-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  color: var(--text-light);
+  font-size: 0.88rem;
+  margin-top: 0.75rem;
+}
+
+.medline-footer p {
+  margin: 0;
+}
+
+.medline-link {
+  color: var(--primary-dark);
+  font-weight: 800;
+}
+
 .interaction-card .btn:disabled {
   cursor: wait;
   opacity: 0.7;
