@@ -1870,6 +1870,10 @@ h4 { font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--primary-dark); padd
 }
 
 /* Pre-launch hold modal for the interaction checker */
+.interaction-page-hold {
+  overflow: hidden;
+}
+
 .launch-hold-modal {
   position: fixed;
   inset: 0;
