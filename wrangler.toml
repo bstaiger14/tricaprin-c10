@@ -1,0 +1,6 @@
+name = "fda-food-fat-ai-scanner"
+main = "workers/fda-food-fat-ai-scanner.js"
+compatibility_date = "2026-06-14"
+
+[vars]
+OPENFDA_API_KEY = ""
