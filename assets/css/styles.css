@@ -1869,50 +1869,6 @@ h4 { font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--primary-dark); padd
   .interaction-field { grid-template-columns: 1fr; gap: 0.3rem; }
 }
 
-/* Pre-launch hold modal for the interaction checker */
-.interaction-page-hold {
-  overflow: hidden;
-}
-
-.launch-hold-modal {
-  position: fixed;
-  inset: 0;
-  z-index: 1000;
-  display: grid;
-  place-items: center;
-  padding: 1.5rem;
-  background:
-    radial-gradient(circle at 50% 18%, rgba(66, 165, 245, 0.28), transparent 34%),
-    rgba(7, 26, 51, 0.78);
-  backdrop-filter: blur(18px);
-}
-
-.launch-hold-card {
-  width: min(100%, 520px);
-  padding: clamp(1.7rem, 5vw, 2.6rem);
-  border: 1px solid rgba(255, 255, 255, 0.72);
-  border-radius: 32px;
-  text-align: center;
-  background: rgba(255, 255, 255, 0.96);
-  box-shadow: 0 30px 80px rgba(0, 20, 48, 0.28);
-}
-
-.launch-hold-card .section-chip {
-  margin-bottom: 1.2rem;
-}
-
-.launch-hold-card h1 {
-  margin-bottom: 0.75rem;
-  font-size: clamp(2.2rem, 7vw, 3.7rem);
-}
-
-.launch-hold-card p {
-  max-width: 410px;
-  margin: 0 auto 1.8rem;
-  color: var(--text-light);
-  font-size: 1.05rem;
-}
-
 /* FDA label food/fat scanner refinements */
 .interaction-card input[type="search"] {
   width: 100%;
