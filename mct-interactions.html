@@ -5,23 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/png" href="assets/img/Tricaprin%20Icon.png">
   <link rel="apple-touch-icon" href="assets/img/Tricaprin%20Icon.png">
-  <title>MCT Oil Medication Interaction Checker | Tricaprin C10</title>
-  <meta name="description" content="Check medications against the NatMed MCT oil interaction monograph through a private PHP backend endpoint.">
+  <title>FDA Label Food &amp; Fat Interaction Scanner | Tricaprin C10</title>
+  <meta name="description" content="Search FDA drug labeling for medication instructions and warnings related to food, fat-containing meals, fasting, grapefruit, alcohol, dairy, minerals, vitamin K, caffeine, tyramine, fruit juices, tube feeds, and other diet-related issues.">
   <link rel="canonical" href="https://tricaprin-c10.com/mct-interactions">
   <link rel="stylesheet" href="assets/css/styles.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet">
   <script defer src="assets/js/main.js"></script>
 </head>
 <body class="info-page interaction-page">
-  <div class="launch-hold-modal" role="dialog" aria-modal="true" aria-labelledby="launch-hold-title" aria-describedby="launch-hold-copy">
-    <div class="launch-hold-card">
-      <span class="section-chip">Interaction checker</span>
-      <h1 id="launch-hold-title">Coming soon.</h1>
-      <p id="launch-hold-copy">This MCT oil medication interaction checker is not ready to launch yet. Please return to the homepage for now.</p>
-      <a class="btn btn-primary btn-lg" href="/" autofocus>Back to homepage</a>
-    </div>
-  </div>
-  <nav class="navbar" inert aria-hidden="true">
+  <nav class="navbar">
     <div class="container nav-content">
       <a href="/" class="logo" aria-label="Tricaprin C10 home">
         <span class="logo-mark">C10</span>
@@ -36,7 +28,7 @@
         <a href="/#why-c10">Why C10?</a>
         <a href="/#research">Heart Research</a>
         <a href="/#compare">MCT Comparison</a>
-        <a href="/mct-interactions">Interaction Checker</a>
+        <a href="/mct-interactions">Interaction Scanner</a>
         <a href="/faq">Supplement FAQ</a>
       </div>
       <button class="mobile-menu-toggle" type="button" aria-label="Open section menu" aria-expanded="false" aria-controls="site-menu">
@@ -45,109 +37,51 @@
     </div>
   </nav>
 
-  <main inert aria-hidden="true">
+  <main>
     <header class="info-hero compact-info-hero interaction-hero">
       <div class="container info-hero-grid">
         <div class="fade-in">
-          <span class="section-chip">NatMed powered checker</span>
-          <h1>MCT Oil medication interaction checker.</h1>
-          <p>Enter one or more medications to check for returned NatMed interactions with MCT oil. This page sends your request to a private PHP endpoint so the NatMed API key is never exposed in browser JavaScript.</p>
+          <span class="section-chip">openFDA label search</span>
+          <h1>FDA Label Food &amp; Fat Interaction Scanner</h1>
+          <p>Search FDA labeling for medication instructions and warnings related to food, fat-containing meals, fasting, grapefruit, alcohol, dairy, minerals, vitamin K, caffeine, tyramine, fruit juices, tube feeds, and other diet-related issues.</p>
         </div>
         <div class="info-hero-card fade-in delay-1">
-          <strong>Important</strong>
-          <p>This tool is educational and is not a substitute for advice from your physician, pharmacist, or other qualified healthcare professional.</p>
+          <strong>Not a complete checker</strong>
+          <p>This tool only searches FDA label text for diet-related language. It does not diagnose interactions or replace advice from a qualified healthcare provider or pharmacist.</p>
         </div>
       </div>
     </header>
 
     <section class="section interaction-checker-section">
       <div class="container interaction-layout">
-        <form class="interaction-card" id="mct-interaction-form">
-          <label for="medications">Medication names</label>
-          <p class="interaction-help">Separate medications with commas or put each one on a new line.</p>
-          <textarea id="medications" name="medications" rows="7" placeholder="Example: warfarin&#10;metformin&#10;atorvastatin" required></textarea>
-          <button class="btn btn-primary btn-lg" type="submit">Check MCT oil interactions</button>
-          <p class="interaction-privacy-note">The API key is loaded only on the server from <code>natmed-config.php</code>.</p>
+        <form class="interaction-card" id="fda-label-form">
+          <label for="medication">Medication name</label>
+          <p class="interaction-help">Enter one brand, generic, or substance name. Searches are handled in your browser with the free openFDA Drug Labeling API; no login or private API key is required.</p>
+          <input id="medication" name="medication" type="search" autocomplete="off" placeholder="Enter a medication, e.g., Xarelto, isotretinoin, levothyroxine" required>
+          <button class="btn btn-primary btn-lg" type="submit">Scan FDA Label</button>
+          <div class="interaction-examples" aria-label="Example medications">
+            <p>Try an example:</p>
+            <div id="example-buttons" class="example-button-grid"></div>
+          </div>
+          <p class="interaction-privacy-note">Searches are not stored server-side. Results may be cached in this browser for 24 hours to reduce openFDA API calls.</p>
         </form>
 
-        <section class="interaction-results" id="interaction-results" aria-live="polite">
-          <div class="interaction-empty-state">
-            <span>Ready</span>
-            <h2>Your results will appear here.</h2>
-            <p>Results include NatMed fields such as severity, occurrence, rating, level of evidence, references, and disclaimer when returned by the API.</p>
-          </div>
-        </section>
+        <section class="interaction-results" id="interaction-results" aria-live="polite"></section>
       </div>
     </section>
   </main>
 
-  <footer class="footer" inert aria-hidden="true">
+  <footer class="footer">
     <div class="container footer-content">
       <div class="footer-brand">
         <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;"><span class="logo-mark">C10</span><div class="logo-text" style="color: white;"><strong style="color: white;">Tricaprin <span style="font-weight: 400;">(C10)</span></strong><small style="color: #42a5f5;">Purity Matters</small></div></div>
         <p>Maintained by HelloPharmacist.</p>
       </div>
-      <div class="footer-links"><a href="/faq">Supplement FAQ</a><a href="/mct-interactions">Interaction Checker</a><a href="/about">About</a><a href="/privacy">Privacy Policy</a><a href="/contact">Contact Us</a></div>
+      <div class="footer-links"><a href="/faq">Supplement FAQ</a><a href="/mct-interactions">Interaction Scanner</a><a href="/about">About</a><a href="/privacy">Privacy Policy</a><a href="/contact">Contact Us</a></div>
     </div>
     <div class="container text-center mt-4"><p class="text-sm text-muted">This site is for educational purposes only and is not medical advice. Dietary supplements are not intended to diagnose, treat, cure, or prevent any disease. Talk with a qualified healthcare professional before starting any supplement.</p><p class="text-sm mt-2">HelloPharmacist &copy; 2026</p></div>
   </footer>
 
-  <script>
-    const form = document.getElementById('mct-interaction-form');
-    const results = document.getElementById('interaction-results');
-    const fields = ['drug-name', 'monograph-name', 'title', 'description', 'severity-text', 'occurrence-text', 'rating-label', 'rating-text', 'level-of-evidence', 'level-of-evidence-definition', 'reference-numbers'];
-    const labels = {'drug-name':'Drug name','monograph-name':'Monograph name','severity-text':'Severity','occurrence-text':'Occurrence','rating-label':'Rating label','rating-text':'Rating','level-of-evidence':'Level of evidence','level-of-evidence-definition':'Evidence definition','reference-numbers':'Reference numbers'};
-
-    function escapeHtml(value) {
-      return String(value ?? '').replace(/[&<>'"]/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]));
-    }
-
-    function renderError(message) {
-      results.innerHTML = `<div class="interaction-alert"><strong>Unable to check interactions</strong><p>${escapeHtml(message)}</p></div>`;
-    }
-
-    form.addEventListener('submit', async (event) => {
-      event.preventDefault();
-      const medications = form.medications.value.split(/[\n,]+/).map(item => item.trim()).filter(Boolean);
-      if (!medications.length) {
-        renderError('Enter one or more medication names.');
-        return;
-      }
-
-      results.innerHTML = '<div class="interaction-loading">Checking NatMed interactions…</div>';
-      try {
-        const response = await fetch('/api/mct-interactions.php', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
-          body: JSON.stringify({medications})
-        });
-        const data = await response.json();
-        if (!response.ok) throw new Error(data.error || 'The checker is temporarily unavailable.');
-
-        const unmatched = (data.unmatched_drugs || []).length ? `<p class="interaction-note"><strong>Not matched:</strong> ${escapeHtml(data.unmatched_drugs.join(', '))}</p>` : '';
-        const disclaimer = data.disclaimer ? `<div class="interaction-disclaimer"><strong>NatMed disclaimer</strong><p>${escapeHtml(data.disclaimer)}</p></div>` : '';
-
-        if (!data.interactions || !data.interactions.length) {
-          results.innerHTML = `<div class="interaction-empty-state"><span>No returned interactions</span><h2>No interactions found for these agents.</h2><p>Always confirm supplement use with your healthcare professional.</p></div>${unmatched}${disclaimer}`;
-          return;
-        }
-
-        const cards = data.interactions.map(interaction => {
-          const title = interaction.title || 'MCT oil interaction';
-          const rows = fields.filter(field => interaction[field]).map(field => {
-            const value = Array.isArray(interaction[field]) ? interaction[field].join(', ') : interaction[field];
-            if (field === 'title') return '';
-            if (field === 'description') return `<p class="interaction-description">${escapeHtml(value)}</p>`;
-            return `<div class="interaction-field"><span>${escapeHtml(labels[field] || field)}</span><p>${escapeHtml(value)}</p></div>`;
-          }).join('');
-          return `<article class="interaction-result-card"><h2>${escapeHtml(title)}</h2>${rows}</article>`;
-        }).join('');
-
-        results.innerHTML = `${unmatched}${cards}${disclaimer}`;
-      } catch (error) {
-        renderError(error.message || 'Please wait a moment and try again.');
-      }
-    });
-  </script>
+  <script src="assets/js/fda-label-scanner.js"></script>
 </body>
 </html>
