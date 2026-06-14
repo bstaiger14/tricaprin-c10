@@ -1652,3 +1652,219 @@ h4 { font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--primary-dark); padd
   .info-hero { padding: 132px 0 58px; }
   .info-content { border-radius: 24px; }
 }
+
+/* MCT oil interaction checker */
+.interaction-hero {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(0, 113, 227, 0.18), transparent 30%),
+    linear-gradient(180deg, #ffffff 0%, #f4f9ff 100%);
+}
+
+.interaction-checker-section {
+  background: linear-gradient(180deg, #f4f9ff 0%, #ffffff 100%);
+}
+
+.interaction-layout {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.42fr) minmax(0, 0.58fr);
+  gap: clamp(1.5rem, 4vw, 3rem);
+  align-items: start;
+}
+
+.interaction-card,
+.interaction-results {
+  border: 1px solid rgba(0, 113, 227, 0.14);
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 24px 60px rgba(0, 44, 92, 0.1);
+}
+
+.interaction-card {
+  position: sticky;
+  top: 112px;
+  padding: clamp(1.5rem, 3vw, 2rem);
+}
+
+.interaction-card label {
+  display: block;
+  color: var(--dark);
+  font-size: 1.1rem;
+  font-weight: 800;
+  margin-bottom: 0.35rem;
+}
+
+.interaction-help,
+.interaction-privacy-note,
+.interaction-note {
+  color: var(--text-light);
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+}
+
+.interaction-card textarea {
+  width: 100%;
+  min-height: 210px;
+  resize: vertical;
+  margin-bottom: 1.2rem;
+  padding: 1rem;
+  border: 1.5px solid var(--border);
+  border-radius: 20px;
+  color: var(--dark);
+  background: #ffffff;
+  font: inherit;
+  line-height: 1.55;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.interaction-card textarea:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.12);
+}
+
+.interaction-card .btn {
+  width: 100%;
+  border: 0;
+}
+
+.interaction-privacy-note {
+  margin: 1rem 0 0;
+  font-size: 0.84rem;
+}
+
+.interaction-privacy-note code {
+  color: var(--primary-dark);
+  font-weight: 800;
+}
+
+.interaction-results {
+  min-height: 420px;
+  padding: clamp(1.4rem, 3vw, 2rem);
+}
+
+.interaction-empty-state,
+.interaction-loading,
+.interaction-alert,
+.interaction-disclaimer,
+.interaction-result-card {
+  border-radius: 24px;
+  padding: clamp(1.25rem, 3vw, 1.75rem);
+}
+
+.interaction-empty-state {
+  background: linear-gradient(135deg, #071a33 0%, #0071e3 100%);
+  color: #ffffff;
+}
+
+.interaction-empty-state span {
+  display: inline-block;
+  color: #cde9ff;
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 0.7rem;
+}
+
+.interaction-empty-state h2,
+.interaction-empty-state p {
+  color: #ffffff;
+}
+
+.interaction-empty-state p {
+  margin: 0;
+  opacity: 0.84;
+}
+
+.interaction-loading {
+  color: var(--primary-dark);
+  background: rgba(0, 113, 227, 0.08);
+  font-weight: 800;
+}
+
+.interaction-alert {
+  color: #7f1d1d;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+}
+
+.interaction-alert p,
+.interaction-disclaimer p,
+.interaction-note,
+.interaction-field p,
+.interaction-description {
+  margin: 0;
+}
+
+.interaction-note {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border-radius: 18px;
+  background: rgba(0, 113, 227, 0.07);
+}
+
+.interaction-result-card {
+  margin-bottom: 1rem;
+  border: 1px solid rgba(0, 113, 227, 0.12);
+  background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+}
+
+.interaction-result-card h2 {
+  font-size: clamp(1.45rem, 3vw, 2rem);
+}
+
+.interaction-description {
+  color: var(--dark-light);
+  font-size: 1rem;
+  line-height: 1.7;
+  margin-bottom: 1rem;
+}
+
+.interaction-field {
+  display: grid;
+  grid-template-columns: minmax(140px, 0.33fr) 1fr;
+  gap: 1rem;
+  padding: 0.9rem 0;
+  border-top: 1px solid rgba(0, 113, 227, 0.1);
+}
+
+.interaction-field span {
+  color: var(--primary-dark);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.7px;
+  text-transform: uppercase;
+}
+
+.interaction-field p {
+  color: var(--dark-light);
+  line-height: 1.6;
+}
+
+.interaction-disclaimer {
+  margin-top: 1rem;
+  color: #a1a1aa;
+  background: var(--dark);
+}
+
+.interaction-disclaimer strong {
+  display: block;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+}
+
+.interaction-disclaimer p {
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+@media (max-width: 900px) {
+  .interaction-layout { grid-template-columns: 1fr; }
+  .interaction-card { position: static; }
+}
+
+@media (max-width: 560px) {
+  .interaction-field { grid-template-columns: 1fr; gap: 0.3rem; }
+}
