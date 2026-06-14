@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/png" href="assets/img/Tricaprin%20Icon.png">
   <link rel="apple-touch-icon" href="assets/img/Tricaprin%20Icon.png">
-  <title>FDA Label Food & Fat Interaction Scanner | Tricaprin C10</title>
-  <meta name="description" content="Search FDA drug labeling for food, fat-containing meals, fasting, grapefruit, alcohol, dairy, minerals, vitamin K, caffeine, tyramine, fruit juice, tube feed, and other diet-related language.">
+  <title>MCT Oil - Drug Interaction Checker | Tricaprin C10</title>
+  <meta name="description" content="Check FDA-approved drug labeling for potential interactions and considerations before adding MCT oil, like Tricaprin, to your medication regimen.">
   <link rel="canonical" href="https://tricaprin-c10.com/mct-interactions">
-  <link rel="stylesheet" href="assets/css/styles.css?v=scanner-live-20260614">
+  <link rel="stylesheet" href="assets/css/styles.css?v=mct-checker-20260614">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet">
   <script defer src="assets/js/main.js"></script>
 </head>
@@ -41,13 +41,13 @@
     <header class="info-hero compact-info-hero interaction-hero">
       <div class="container info-hero-grid">
         <div class="fade-in">
-          <span class="section-chip">Cloudflare Worker FDA label search</span>
-          <h1>FDA Label Food &amp; Fat Interaction Scanner</h1>
-          <p>Search FDA drug labeling for food, fat-containing meals, fasting, grapefruit, alcohol, dairy, minerals, vitamin K, caffeine, tyramine, fruit juice, tube feed, and other diet-related language.</p>
+          <span class="section-chip">Interaction Checker Powered by HelloPharmacist</span>
+          <h1>MCT Oil - Drug Interaction Checker</h1>
+          <p>We are now conducting a <strong>real-time scan</strong> of FDA labeling to get you the most up-to-date and accurate answer. This checker reviews FDA-approved prescription and OTC drug labeling for potential considerations before adding MCT oil, like Tricaprin, to your medication regimen.</p>
         </div>
         <div class="info-hero-card fade-in delay-1">
-          <strong>Not a complete clinical checker</strong>
-          <p>This tool searches FDA label language and distinguishes administration instructions from caution or avoid language. It does not diagnose interactions or replace advice from a qualified healthcare provider or pharmacist.</p>
+          <strong>MCT oil / Tricaprin focus</strong>
+          <p>This tool only checks FDA label language for possible interactions or considerations between drugs and MCT oil, including Tricaprin. It does not replace advice from a qualified healthcare provider or pharmacist.</p>
         </div>
       </div>
     </header>
@@ -56,15 +56,15 @@
       <div class="container interaction-layout">
         <form class="interaction-card" id="fda-label-form">
           <label for="medication">Medication name</label>
-          <p class="interaction-help">Enter one brand or generic medication name. The frontend sends only the medication name to the Cloudflare Worker; it does not call OpenAI or openFDA directly.</p>
+          <p class="interaction-help">Simply put in one brand or generic medication name to check. We will run a real-time review of FDA-approved drug labeling and let you know whether there are considerations before adding MCT oil, like Tricaprin, to your medication regimen.</p>
           <input id="medication" name="medication" type="search" autocomplete="off" placeholder="Enter a medication, e.g., Xarelto, isotretinoin, levothyroxine" required>
-          <button class="btn btn-primary btn-lg" type="submit">Scan FDA Label</button>
+          <button class="btn btn-primary btn-lg" type="submit">Check MCT Oil Interaction</button>
           <button class="btn btn-outline btn-lg refresh-scan-button" id="refresh-scan" type="button" hidden>Refresh scan</button>
           <div class="interaction-examples" aria-label="Example medications">
             <p>Try an example:</p>
             <div id="example-buttons" class="example-button-grid"></div>
           </div>
-          <p class="interaction-privacy-note">Do not enter personal health information. Results may be cached in this browser for 24 hours; use Refresh scan to bypass the cache.</p>
+          <p class="interaction-privacy-note">Do not enter personal health information. This checker only evaluates MCT oil / Tricaprin-related considerations found in FDA labeling. Results may be cached in this browser for 24 hours; use Refresh scan to bypass the cache.</p>
         </form>
 
         <section class="interaction-results" id="interaction-results" aria-live="polite"></section>
@@ -83,6 +83,6 @@
     <div class="container text-center mt-4"><p class="text-sm text-muted">This site is for educational purposes only and is not medical advice. Dietary supplements are not intended to diagnose, treat, cure, or prevent any disease. Talk with a qualified healthcare professional before starting any supplement.</p><p class="text-sm mt-2">HelloPharmacist &copy; 2026</p></div>
   </footer>
 
-  <script src="assets/js/fda-label-scanner.js?v=scanner-live-20260614"></script>
+  <script src="assets/js/fda-label-scanner.js?v=mct-checker-20260614"></script>
 </body>
 </html>

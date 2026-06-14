@@ -2008,3 +2008,158 @@ h4 { font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--primary-dark); padd
 .interaction-page .interaction-checker-section {
   padding-top: clamp(3rem, 7vw, 5rem);
 }
+
+/* MCT oil / Tricaprin interaction checker progress and AI result fields */
+.mct-result-badge-wrap {
+  margin: 1rem 0 1.25rem;
+  padding: 1rem;
+  border-radius: 14px;
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+}
+
+.mct-result-badge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.4rem 0.75rem;
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.01em;
+}
+
+.mct-badge-safe {
+  background: #dcfce7;
+  color: #166534;
+  border: 1px solid #86efac;
+}
+
+.mct-badge-caution {
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fcd34d;
+}
+
+.mct-badge-reason {
+  margin: 0.75rem 0 0;
+  color: #475569;
+  line-height: 1.55;
+}
+
+.interaction-searched-drug .interaction-field {
+  border-top: 0;
+  padding: 0;
+}
+
+.interaction-loading-card {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 16% 14%, rgba(66, 165, 245, 0.24), transparent 28%),
+    linear-gradient(135deg, #eff6ff 0%, #ffffff 50%, #f0fdf4 100%);
+  border: 1px solid rgba(0, 113, 227, 0.16);
+  color: var(--dark);
+}
+
+.loading-orb {
+  width: 4.25rem;
+  height: 4.25rem;
+  border-radius: 999px;
+  margin-bottom: 1rem;
+  background: conic-gradient(from 90deg, var(--primary), #42a5f5, #22c55e, var(--primary));
+  box-shadow: 0 0 36px rgba(0, 113, 227, 0.28);
+  animation: scannerSpin 1.5s linear infinite;
+}
+
+.loading-orb::after {
+  content: "";
+  display: block;
+  width: 2.7rem;
+  height: 2.7rem;
+  margin: 0.775rem;
+  border-radius: inherit;
+  background: #ffffff;
+}
+
+.loading-kicker {
+  display: inline-flex;
+  margin-bottom: 0.55rem;
+  color: var(--primary-dark);
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.interaction-loading-card h2 {
+  margin-bottom: 0.7rem;
+  color: var(--dark);
+  font-size: clamp(1.35rem, 3vw, 1.9rem);
+}
+
+.interaction-loading-card p {
+  max-width: 54ch;
+  margin: 0 0 1.1rem;
+  color: var(--dark-light);
+  font-weight: 600;
+  line-height: 1.65;
+}
+
+.scan-progress {
+  height: 0.8rem;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #dbeafe;
+  box-shadow: inset 0 1px 2px rgba(0, 44, 92, 0.12);
+}
+
+.scan-progress span {
+  display: block;
+  width: 45%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--primary), #42a5f5, #22c55e);
+  animation: scanProgress 2.4s ease-in-out infinite;
+}
+
+.scan-steps {
+  display: grid;
+  gap: 0.65rem;
+  margin: 1.1rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.scan-steps li {
+  position: relative;
+  padding-left: 2rem;
+  color: #334155;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.scan-steps li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  top: 0.02rem;
+  display: grid;
+  place-items: center;
+  width: 1.35rem;
+  height: 1.35rem;
+  border-radius: 999px;
+  background: #dcfce7;
+  color: #166534;
+  font-size: 0.8rem;
+  font-weight: 900;
+}
+
+@keyframes scannerSpin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes scanProgress {
+  0% { transform: translateX(-105%); width: 38%; }
+  45% { width: 68%; }
+  100% { transform: translateX(265%); width: 38%; }
+}
