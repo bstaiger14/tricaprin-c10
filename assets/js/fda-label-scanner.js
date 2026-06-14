@@ -1,82 +1,74 @@
-const OPENFDA_ENDPOINT = 'https://api.fda.gov/drug/label.json';
+const WORKER_ENDPOINT = 'https://fda-food-fat-ai-scanner.curly-lake-5061.workers.dev/';
 const CACHE_TTL_MS = 24 * 60 * 60 * 1000;
-const LABEL_SECTIONS = [
-  'drug_interactions',
-  'drug_interactions_table',
-  'drug_and_or_laboratory_test_interactions',
-  'drug_and_or_laboratory_test_interactions_table'
-];
-const TERM_CATEGORIES = [
-  {name:'Fat interaction language', relevance:'Fat interaction mention', priority:1, terms:['fat']}
-];
-const examples = ['Xarelto','isotretinoin','griseofulvin','levothyroxine','ciprofloxacin','doxycycline','linezolid','warfarin','fexofenadine','lurasidone','ziprasidone','posaconazole'];
+const CACHE_PREFIX = 'fda-food-fat-worker-scan:';
+const EXAMPLES = ['Xarelto','isotretinoin','griseofulvin','levothyroxine','ciprofloxacin','doxycycline','linezolid','warfarin','fexofenadine','lurasidone','ziprasidone','posaconazole'];
+const PERMANENT_DISCLAIMER = 'This tool searches FDA drug labeling for food, fat, meal, alcohol, grapefruit, dairy, mineral, vitamin K, caffeine, tyramine, fruit juice, tube feed, and diet-related language. It is not a complete clinical interaction checker and should not be used as a substitute for medical advice. Do not start, stop, or change a medication, supplement, or diet plan without checking with a qualified healthcare provider or pharmacist.';
+const NO_FINDINGS_MESSAGE = 'No food, fat, or diet-related language was found in the FDA labeling searched by this tool.';
+const NO_FINDINGS_LIMITATION = 'This does not guarantee that no interaction exists. It only means this tool did not find food, fat, or diet-related language in the FDA labeling records searched.';
+const CATEGORY_LABELS = {fat_meal_absorption:'Fat / meal absorption effect',food_timing:'Food administration instruction',grapefruit:'Grapefruit / citrus',alcohol:'Alcohol',dairy_minerals:'Dairy / calcium / minerals',vitamin_k:'Vitamin K / diet consistency',tyramine:'Tyramine foods',caffeine:'Caffeine',fruit_juice:'Fruit juice',potassium_salt_substitute:'Potassium / salt substitutes',tube_feeds:'Tube feeds / enteral nutrition',protein_meal:'Protein meal',other_food_diet:'Other food/diet language'};
+const SEVERITY_LABELS = {avoid:'Avoid language',caution:'Caution language',administration_instruction:'Administration instruction',absorption_effect:'Absorption effect',unclear:'Unclear label language'};
+
 const form = document.getElementById('fda-label-form');
 const input = document.getElementById('medication');
 const results = document.getElementById('interaction-results');
-const submitButton = form.querySelector('button[type="submit"]');
+const submitButton = form?.querySelector('button[type="submit"]');
+const refreshButton = document.getElementById('refresh-scan');
 const exampleWrap = document.getElementById('example-buttons');
+let lastResponse = null;
 
 function normalizeDrugName(value) { return String(value || '').trim().replace(/\s+/g, ' ').slice(0, 120); }
-function normalizeLabelText(value) { return String(value || '').replace(/<[^>]+>/g, ' ').replace(/&nbsp;/gi, ' ').replace(/\s+/g, ' ').trim(); }
+function normalizedCacheName(value) { return normalizeDrugName(value).toLowerCase(); }
 function escapeHtml(value) { return String(value ?? '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c])); }
-function escapeRegExp(value) { return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
-function formatSectionName(section) { return section.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' '); }
-function formatFdaDate(value) { if (!value || !/^\d{8}$/.test(value)) return value || 'Not available'; return `${value.slice(0,4)}-${value.slice(4,6)}-${value.slice(6,8)}`; }
-function getFirst(value) { return Array.isArray(value) ? value.filter(Boolean).join(', ') : (value || 'Not available'); }
-function buildOpenFdaLabelSearchUrl(drugName, exact = true) {
-  const clean = normalizeDrugName(drugName);
-  const encoded = exact ? `"${clean.replace(/"/g, '')}"` : clean;
-  const fields = ['openfda.brand_name','openfda.generic_name','openfda.substance_name'];
-  const search = fields.map(field => `${field}:${encoded}`).join(' OR ');
-  return `${OPENFDA_ENDPOINT}?search=${encodeURIComponent(search)}&sort=effective_time:desc&limit=20`;
+function toArray(value) { return Array.isArray(value) ? value.filter(Boolean) : value ? [value] : []; }
+function cacheKey(name) { return `${CACHE_PREFIX}${normalizedCacheName(name)}`; }
+function getCachedScanResult(name) { try { const cached = JSON.parse(localStorage.getItem(cacheKey(name)) || 'null'); return cached && cached.timestamp && Date.now() - cached.timestamp < CACHE_TTL_MS ? cached : null; } catch { return null; } }
+function setCachedScanResult(name, result) { try { localStorage.setItem(cacheKey(name), JSON.stringify({timestamp:Date.now(), result})); } catch {} }
+function formatCategoryLabel(category) { return CATEGORY_LABELS[category] || String(category || 'Other food/diet language').replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase()); }
+function formatSeverityLabel(severity) { return SEVERITY_LABELS[severity] || formatCategoryLabel(severity || 'unclear'); }
+function formatFdaDate(value) { const text = String(value || '').trim(); if (/^\d{8}$/.test(text)) return `${text.slice(0,4)}-${text.slice(4,6)}-${text.slice(6,8)}`; return text || 'Not available'; }
+function field(label, value) { const clean = Array.isArray(value) ? value.filter(Boolean).join(', ') : value; return clean ? `<div class="interaction-field"><span>${escapeHtml(label)}</span><p>${escapeHtml(clean)}</p></div>` : ''; }
+
+async function scanFoodFatLabel(drug) {
+  const clean = normalizeDrugName(drug);
+  console.info('FDA food/fat scanner request', {drug: clean, endpoint: WORKER_ENDPOINT});
+  const response = await fetch(WORKER_ENDPOINT, {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({drug: clean})});
+  const data = await response.json().catch(() => ({}));
+  console.info('FDA food/fat scanner response', {status: response.status, ok: data?.ok, resultStatus: data?.status});
+  if (!response.ok) throw new Error(data?.error || 'Could not complete the scan. Please try again.');
+  if (data && data.ok === false) throw new Error(data.error || 'The scanner returned an error. Please try again.');
+  return normalizeResponse(data);
 }
-function cacheKey(name) { return `fda-label-food-fat:${normalizeDrugName(name).toLowerCase()}`; }
-function getCachedLabels(name) { try { const cached = JSON.parse(localStorage.getItem(cacheKey(name)) || 'null'); return cached && Date.now() - cached.timestamp < CACHE_TTL_MS ? cached : null; } catch { return null; } }
-function setCachedLabels(name, labels) { try { localStorage.setItem(cacheKey(name), JSON.stringify({timestamp:Date.now(), labels})); } catch {} }
-async function fetchFdaLabels(name) {
-  const cached = getCachedLabels(name);
-  if (cached) return {...cached, fromCache:true};
-  for (const exact of [true, false]) {
-    const response = await fetch(buildOpenFdaLabelSearchUrl(name, exact), {headers:{Accept:'application/json'}});
-    if (response.status === 404) continue;
-    if (response.status === 429) throw new Error('RATE_LIMIT');
-    if (!response.ok) throw new Error('NETWORK');
-    const data = await response.json();
-    const labels = data.results || [];
-    if (labels.length) { setCachedLabels(name, labels); return {labels, timestamp:Date.now(), fromCache:false}; }
-  }
-  return {labels:[], timestamp:Date.now(), fromCache:false};
+
+function normalizeResponse(data) {
+  const aiSummary = data.aiSummary || {};
+  return {...data, aiSummary:{...aiSummary, mainCategories:toArray(aiSummary.mainCategories), findings:toArray(aiSummary.findings)}, rawExcerpts:toArray(data.rawExcerpts), findings:toArray(data.findings)};
 }
-function labelMetadata(label) {
-  const openfda = label.openfda || {};
-  return {productName:getFirst(openfda.brand_name) !== 'Not available' ? getFirst(openfda.brand_name) : getFirst(openfda.generic_name), genericName:getFirst(openfda.generic_name), brandName:getFirst(openfda.brand_name), manufacturer:getFirst(openfda.manufacturer_name), effectiveDate:formatFdaDate(label.effective_time), setId:label.set_id || 'Not available', id:label.id || 'Not available'};
+
+function renderDisclaimer(responseDisclaimer) {
+  return `<div class="interaction-disclaimer"><strong>Limitations / Disclaimer</strong><p>${escapeHtml(PERMANENT_DISCLAIMER)}</p>${responseDisclaimer ? `<p class="mt-3">${escapeHtml(responseDisclaimer)}</p>` : ''}</div>`;
 }
-function extractLabelTextSections(label) { return LABEL_SECTIONS.flatMap(section => (label[section] || []).map(text => ({section, text:normalizeLabelText(text)}))).filter(item => item.text); }
-function extractExcerpt(text, index, term) {
-  const sentenceRe = /[^.!?]*(?:[.!?]|$)/g; let match; const sentences = [];
-  while ((match = sentenceRe.exec(text)) !== null) { if (match[0].trim()) sentences.push({start:match.index, end:sentenceRe.lastIndex, text:match[0].trim()}); if (match[0] === '') sentenceRe.lastIndex += 1; }
-  const hit = sentences.findIndex(s => index >= s.start && index <= s.end);
-  let excerpt = hit >= 0 ? sentences.slice(Math.max(0, hit - 1), hit + 2).map(s => s.text).join(' ') : text.slice(Math.max(0,index-250), Math.min(text.length,index+term.length+250));
-  if (excerpt.length > 650) excerpt = `${excerpt.slice(0, 647)}...`;
-  return excerpt;
+function renderEmpty() { results.innerHTML = `<div class="interaction-empty-state"><span>Ready</span><h2>Scan FDA label language.</h2><p>Enter one medication name. The website sends only that medication name to the Cloudflare Worker and displays FDA label language found by the backend.</p></div>${renderDisclaimer()}`; }
+function renderError(message) { results.innerHTML = `<div class="interaction-alert"><strong>Unable to scan FDA labeling</strong><p>${escapeHtml(message)}</p></div>${renderDisclaimer()}`; }
+function renderSummary(data) { const summary = data.aiSummary?.plainEnglishSummary || data.message || (data.status === 'no_food_fat_language_found' ? NO_FINDINGS_MESSAGE : 'FDA label scan complete.'); return `<article class="interaction-result-card"><div class="interaction-card-top"><span class="finding-pill">${escapeHtml(data.status === 'food_fat_language_found' ? 'FDA label language found' : 'FDA label scan')}</span>${data.labelsReviewed ? `<span class="finding-category">${escapeHtml(data.labelsReviewed)} labels reviewed</span>` : ''}</div><h2>Summary</h2><p class="interaction-description">${escapeHtml(summary)}</p></article>`; }
+function renderTakeaway(data) { return data.aiSummary?.practicalTakeaway ? `<article class="interaction-result-card"><h2>Practical Takeaway</h2><p class="interaction-description">${escapeHtml(data.aiSummary.practicalTakeaway)}</p></article>` : ''; }
+function renderCaution(data) { return data.aiSummary?.patientFriendlyCaution ? `<article class="interaction-result-card"><h2>Patient-Friendly Caution</h2><p class="interaction-description">${escapeHtml(data.aiSummary.patientFriendlyCaution)}</p></article>` : ''; }
+function renderCategories(data) { const cats = data.aiSummary?.mainCategories || []; return cats.length ? `<article class="interaction-result-card"><h2>Main Categories</h2><div class="interaction-chip-row">${cats.map(c => `<span class="finding-category">${escapeHtml(formatCategoryLabel(c))}</span>`).join('')}</div></article>` : ''; }
+function renderFindings(data) { const findings = data.aiSummary?.findings || []; if (!findings.length) return ''; return `<article class="interaction-result-card"><h2>FDA Label Findings</h2>${findings.map(f => `<div class="finding-subcard"><div class="interaction-card-top"><span class="finding-pill">${escapeHtml(formatSeverityLabel(f.severityLanguage))}</span><span class="finding-category">${escapeHtml(formatCategoryLabel(f.category))}</span></div>${field('What the label says', f.whatTheLabelSays)}${field('Why it matters', f.whyItMatters)}${field('Matched terms', toArray(f.matchedTerms))}${field('Source section', f.sourceSection)}${field('Label effective date', formatFdaDate(f.labelEffectiveDate))}${field('Set ID', f.setId)}</div>`).join('')}</article>`; }
+function excerptFromFinding(f, i) { return {productName:'FDA label finding',section:f.sourceSection,matchedTerm:toArray(f.matchedTerms).join(', '),effectiveTime:f.labelEffectiveDate,setId:f.setId,excerpt:f.supportingExcerpt,labelId:`finding-${i + 1}`}; }
+function renderExcerpts(data) { const raw = data.rawExcerpts?.length ? data.rawExcerpts : (data.aiSummary?.findings || []).filter(f => f.supportingExcerpt).map(excerptFromFinding); if (!raw.length) return ''; return `<article class="interaction-result-card"><h2>Supporting FDA Excerpts</h2>${raw.map((e,i) => `<details class="excerpt-card"><summary>${escapeHtml(e.productName || e.brandName || e.genericName || `FDA excerpt ${i + 1}`)}</summary>${field('Product name', e.productName)}${field('Brand name', e.brandName)}${field('Generic name', e.genericName)}${field('Manufacturer', e.manufacturerName)}${field('Label section', e.section)}${field('Matched term', e.matchedTerm)}${field('Effective date', formatFdaDate(e.effectiveTime))}${field('Set ID', e.setId)}${field('Excerpt text', e.excerpt)}</details>`).join('')}</article>`; }
+function renderNoFindings(data) { return `<div class="interaction-empty-state"><span>No FDA label mention found</span><h2>${NO_FINDINGS_MESSAGE}</h2><p>${NO_FINDINGS_LIMITATION}</p></div>`; }
+function renderNoLabels() { return `<div class="interaction-empty-state"><span>No FDA labels found</span><h2>No FDA labeling records were found for this medication name.</h2><p>Try a brand or generic name.</p></div>`; }
+function renderResults(data, meta = {}) { lastResponse = data; const cacheNote = meta.fromCache ? '<p class="interaction-note"><strong>Loaded from recent scan.</strong> Use Refresh scan to bypass the 24-hour browser cache.</p>' : ''; let body = ''; if (data.status === 'no_fda_labels') body = renderNoLabels(); else if (data.status === 'no_food_fat_language_found') body = renderNoFindings(data); else body = [renderSummary(data), renderTakeaway(data), renderCaution(data), renderCategories(data), renderFindings(data), renderExcerpts(data)].join(''); results.innerHTML = `${cacheNote}${body}${renderDisclaimer(data.disclaimer)}`; refreshButton.hidden = false; }
+
+async function runScan(options = {}) {
+  const medication = normalizeDrugName(input.value); if (!medication) { renderError('Enter one medication name.'); return; }
+  submitButton.disabled = true; refreshButton.disabled = true; submitButton.textContent = 'Scanning…'; results.innerHTML = '<div class="interaction-loading">Scanning FDA labeling…</div>';
+  try { const cached = !options.bypassCache && getCachedScanResult(medication); if (cached) { renderResults(cached.result, {fromCache:true}); return; } const data = await scanFoodFatLabel(medication); setCachedScanResult(medication, data); renderResults(data); }
+  catch (error) { renderError(error.message || 'Could not complete the scan. Please try again.'); }
+  finally { submitButton.disabled = false; refreshButton.disabled = false; submitButton.textContent = 'Scan FDA Label'; }
 }
-function highlightTerm(excerpt, term) { return escapeHtml(excerpt).replace(new RegExp(`(${escapeRegExp(term)})`, 'ig'), '<mark>$1</mark>'); }
-function dedupeFindings(findings) { const seen = new Set(); return findings.filter(f => { const key = `${f.section}|${f.term.toLowerCase()}|${f.excerpt.slice(0,180).toLowerCase()}|${f.meta.setId}`; if (seen.has(key)) return false; seen.add(key); return true; }); }
-function rankFindings(findings) { return findings.sort((a,b) => a.priority - b.priority || (b.excerpt.length - a.excerpt.length)); }
-function scanForFoodFatTerms(labels) {
-  const findings = [];
-  labels.forEach(label => { const meta = labelMetadata(label); extractLabelTextSections(label).forEach(({section,text}) => { TERM_CATEGORIES.forEach(category => { category.terms.forEach(term => { const re = new RegExp(`\\b${escapeRegExp(term)}\\b`, 'ig'); let match; while ((match = re.exec(text)) !== null) { const excerpt = extractExcerpt(text, match.index, term); findings.push({category:category.name, relevance:category.relevance, priority:category.priority, term:match[0], section:formatSectionName(section), excerpt, meta}); } }); }); }); });
-  return rankFindings(dedupeFindings(findings)).slice(0, 80);
-}
-function renderEmpty() { results.innerHTML = `<div class="interaction-empty-state"><span>Ready</span><h2>Scan FDA label language.</h2><p>Enter one medication name to search openFDA interaction label sections for the term fat.</p></div>${renderDisclaimer()}`; }
-function renderDisclaimer() { return `<div class="interaction-disclaimer"><strong>Important disclaimer</strong><p>This tool searches FDA drug interaction label sections for the term fat. It is not a complete clinical interaction checker and should not be used as a substitute for medical advice. Do not start, stop, or change a medication, supplement, or diet plan without checking with a qualified healthcare provider or pharmacist.</p></div>`; }
-function renderError(message) { results.innerHTML = `<div class="interaction-alert"><strong>Unable to scan FDA label language</strong><p>${escapeHtml(message)}</p></div>${renderDisclaimer()}`; }
-function renderNoFindings(timestamp, fromCache) { results.innerHTML = `${fromCache ? `<p class="interaction-note"><strong>Last checked:</strong> ${new Date(timestamp).toLocaleString()}</p>` : ''}<div class="interaction-empty-state"><span>No FDA label mention found</span><h2>No fat mention was found in the FDA interaction label sections searched by this tool.</h2><p>This does not guarantee that no interaction exists. It only means this tool did not find fat language in the FDA interaction label sections searched.</p></div>${renderDisclaimer()}`; }
-function renderFindings(findings, timestamp, fromCache) {
-  const cacheNote = fromCache ? `<p class="interaction-note"><strong>Last checked:</strong> ${new Date(timestamp).toLocaleString()}</p>` : '';
-  const cards = findings.map(f => `<article class="interaction-result-card"><div class="interaction-card-top"><span class="finding-pill">${escapeHtml(f.relevance)}</span><span class="finding-category">${escapeHtml(f.category)}</span></div><h2>FDA label language found: ${escapeHtml(f.term)}</h2><p class="interaction-description">${highlightTerm(f.excerpt, f.term)}</p><div class="interaction-field"><span>Product</span><p>${escapeHtml(f.meta.productName)}</p></div><div class="interaction-field"><span>Generic</span><p>${escapeHtml(f.meta.genericName)}</p></div><div class="interaction-field"><span>Brand</span><p>${escapeHtml(f.meta.brandName)}</p></div><div class="interaction-field"><span>Manufacturer</span><p>${escapeHtml(f.meta.manufacturer)}</p></div><div class="interaction-field"><span>Effective date</span><p>${escapeHtml(f.meta.effectiveDate)}</p></div><div class="interaction-field"><span>Label section</span><p>${escapeHtml(f.section)}</p></div><div class="interaction-field"><span>FDA IDs</span><p>set_id: ${escapeHtml(f.meta.setId)}<br>id: ${escapeHtml(f.meta.id)}</p></div></article>`).join('');
-  results.innerHTML = `${cacheNote}<p class="interaction-note"><strong>${findings.length}</strong> FDA label mention${findings.length === 1 ? '' : 's'} found. Results are source excerpts from FDA labeling, not a complete clinical interaction check.</p>${cards}${renderDisclaimer()}`;
-}
-examples.forEach(example => { const button = document.createElement('button'); button.type = 'button'; button.className = 'example-chip'; button.textContent = example; button.addEventListener('click', () => { input.value = example; input.focus(); }); exampleWrap.appendChild(button); });
-form.addEventListener('submit', async event => { event.preventDefault(); const medication = normalizeDrugName(input.value); if (!medication) { renderError('Enter one medication name.'); return; } submitButton.disabled = true; submitButton.textContent = 'Scanning…'; results.innerHTML = '<div class="interaction-loading">Scanning FDA labeling with openFDA…</div>'; try { const data = await fetchFdaLabels(medication); if (!data.labels.length) { renderError('No FDA labeling records were found for this medication name. Try a brand or generic name.'); return; } const findings = scanForFoodFatTerms(data.labels); if (!findings.length) renderNoFindings(data.timestamp, data.fromCache); else renderFindings(findings, data.timestamp, data.fromCache); } catch (error) { if (error.message === 'RATE_LIMIT') renderError('The FDA label service is temporarily limiting requests. Please try again later.'); else renderError('Could not reach the FDA label service. Please try again.'); } finally { submitButton.disabled = false; submitButton.textContent = 'Scan FDA Label'; } });
+
+EXAMPLES.forEach(example => { const button = document.createElement('button'); button.type = 'button'; button.className = 'example-chip'; button.textContent = example; button.addEventListener('click', () => { input.value = example; input.focus(); runScan(); }); exampleWrap.appendChild(button); });
+form.addEventListener('submit', event => { event.preventDefault(); runScan(); });
+refreshButton?.addEventListener('click', () => runScan({bypassCache:true}));
 renderEmpty();
