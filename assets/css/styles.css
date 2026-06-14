@@ -2039,3 +2039,12 @@ h4 { font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--primary-dark); padd
 .excerpt-card[open] summary {
   margin-bottom: 0.75rem;
 }
+
+/* Keep the interaction scanner focused on the single /mct-interactions tool page. */
+.interaction-page .compact-info-hero {
+  min-height: auto;
+}
+
+.interaction-page .interaction-checker-section {
+  padding-top: clamp(3rem, 7vw, 5rem);
+}
