@@ -2018,6 +2018,13 @@ h4 { font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--primary-dark); padd
   border: 1px solid #e5e7eb;
 }
 
+.mct-safety-question {
+  margin: 0 0 0.85rem;
+  color: var(--dark);
+  font-size: clamp(1.35rem, 2.6vw, 2rem);
+  line-height: 1.2;
+}
+
 .mct-result-badge {
   display: inline-flex;
   align-items: center;
