@@ -96,6 +96,28 @@ function renderMctSafety(data) {
   const badgeClass = isCaution ? 'mct-badge-caution' : 'mct-badge-safe';
   return `<div class="mct-result-badge-wrap">${renderMctSafetyQuestion(data)}${badge ? `<span class="mct-result-badge ${badgeClass}">${escapeHtml(badge)}</span>` : ''}${reason ? `<p class="mct-badge-reason">${escapeHtml(reason)}</p>` : ''}</div>`;
 }
+
+function renderMedicationOverview(data) {
+  const info = data.medlinePlus || {};
+  if (!info.found || (!info.title && !info.summary && !info.url)) return '';
+  return `<article class="interaction-result-card medication-overview-card" data-medline-card><div class="interaction-card-top"><span class="finding-pill">MedlinePlus Drug Information</span></div><h2>Medication Overview</h2><h3 data-medline-title></h3><p class="interaction-description medline-summary" data-medline-summary hidden></p><div class="medline-footer"><p data-medline-source></p><p class="medline-attribution" data-medline-attribution hidden></p><a class="medline-link" data-medline-link target="_blank" rel="noopener noreferrer" hidden></a></div></article>`;
+}
+
+function hydrateMedicationOverview(data) {
+  const card = results.querySelector('[data-medline-card]');
+  const info = data.medlinePlus || {};
+  if (!card || !info.found) return;
+  const title = card.querySelector('[data-medline-title]');
+  const summary = card.querySelector('[data-medline-summary]');
+  const source = card.querySelector('[data-medline-source]');
+  const attribution = card.querySelector('[data-medline-attribution]');
+  const link = card.querySelector('[data-medline-link]');
+  if (title) title.textContent = `About ${info.title || data.drugSearched || 'Medication'}`;
+  if (summary && info.summary) { summary.textContent = info.summary; summary.hidden = false; }
+  if (source) source.textContent = 'Source: MedlinePlus, National Library of Medicine';
+  if (attribution && info.attribution) { attribution.textContent = `Content source: ${info.attribution}`; attribution.hidden = false; }
+  if (link && info.url) { link.textContent = 'Read more on MedlinePlus'; link.href = info.url; link.hidden = false; }
+}
 function renderMctContext(data) { return data.aiSummary?.mctOilContext ? `<article class="interaction-result-card"><h2>MCT Oil / Tricaprin Context</h2><p class="interaction-description">${escapeHtml(data.aiSummary.mctOilContext)}</p></article>` : ''; }
 function renderSummary(data) {
   const summary = data.aiSummary?.plainEnglishSummary || data.message || (data.status === 'no_food_fat_language_found' ? NO_FINDINGS_MESSAGE : 'FDA label scan complete.');
@@ -113,11 +135,12 @@ function renderResults(data, meta = {}) {
   lastResponse = data;
   const cacheNote = meta.fromCache ? '<p class="interaction-note"><strong>Loaded from recent scan.</strong> Use Refresh scan to bypass the 24-hour browser cache.</p>' : '';
   let body = '';
-  const leadingSections = [renderSearchedDrug(data), renderMctSafety(data), renderMctContext(data)].join('');
+  const leadingSections = [renderSearchedDrug(data), renderMctSafety(data), renderMedicationOverview(data), renderMctContext(data)].join('');
   if (data.status === 'no_fda_labels') body = `${leadingSections}${renderNoLabels(data)}`;
   else if (data.status === 'no_food_fat_language_found') body = `${leadingSections}${renderNoFindings(data)}`;
   else body = `${leadingSections}${[renderSummary(data), renderTakeaway(data), renderCaution(data), renderCategories(data), renderFindings(data), renderExcerpts(data)].join('')}`;
   results.innerHTML = `${cacheNote}${body}${renderDisclaimer(data.disclaimer)}`;
+  hydrateMedicationOverview(data);
   refreshButton.hidden = false;
 }
 
